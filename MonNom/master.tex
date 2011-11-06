@@ -1,0 +1,125 @@
+\settitle[Sécurité des trotinettes]{Sécurité des trotinettes : prise de contrôle des roues à distance}
+
+
+% Pas besoin d'obfusquer les adresses mails, \email s'en chargera (XXX)
+\setauthor[M.~MonNom, A.~MonAutreNom]{MonPrenom MonNom \and AutrePrenom AutreNom\\
+  \email{monprenom.monnom@mycorp.com\\autreprenom.autrenom@mycorp.com}}
+
+% XXX: Gérer le cas des compagnies multiples
+\institute{MyCorp}
+
+\maketitle
+\index{MonNom, M.}
+\index{MonAutreNom, A.}
+
+\begin{abstract}
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+  minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in
+  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+  culpa qui officia deserunt mollit anim id est laborum.
+\end{abstract}
+
+%% Découpage en sections
+%% =====================
+%%
+%% La classe llcns ne définit que 4 niveaux de sections :
+%%
+%% * section
+%% * subsection
+%% * subsubsection
+%% * paragraph
+
+\section{Introduction}
+
+\subsection{État de l'art}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et \emph{dolore} magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+ea commodo consequat. Duis aute irure dolor in reprehenderit in
+voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+sint occaecat cupidatat non proident, sunt in culpa qui officia
+deserunt mollit anim id est laborum.
+
+Je sais aussi faire des citations, dans l'article de Charlie
+Lembrouille, \cite{charlielembrouille}, il est démontré que, je cite,
+\og{}les trotinettes sont vulnérables aux attaques par XSS\fg{}. C'est
+moche !
+
+%% Images, figures
+%% ===============
+%%
+%% Les images doivent être placées dans un environnement figure de
+%% façon à pouvoir y associer facilement une légende et un label.
+%%
+%% Quelques notes:
+%%
+%%   * La légende doit être en dessous de l'image
+%%
+%%   * Format de l'image
+%%     - Compatible pdflatex : PNG, PDF
+%%     - Les formats vectoriels (comme PDF) sont recommandés car il
+%%       arrive de devoir redimensionner les images à l'édition
+%%       finale
+%%
+%%   * Il est demandé de créér un répertoire img/ dédié à toutes les
+%%     images 
+%%
+%%   * Prenez soin de vos couleurs, SSTIC n'imprime qu'en dégradé de
+%%     gris, votre choix de couleurs doit donc respecter cette
+%%     contrainte.
+%%
+%%     Votre article sera publié sur papier et sur notre site Web. Vous
+%%     pouvez donc fournir les images dans les deux "formats". Nommez
+%%     explicitement vos images avec le préfixe bw- (exemple: bw-archi.pdf)
+%%
+%%     À défaut d'avoir une version papier, nous la convertirons à
+%%     l'aide la commande suivante:
+%%
+%%     $ convert archi.pdf -colorspace Gray bw-archi.pdf
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.4\textwidth]{MonNom/img/archi}
+  \caption{Légende de l'image}
+  \label{fig:monnom:archi}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+
+Avec des listes partout :
+
+\begin{itemize}
+\item Lorem ipsum dolor sit amet
+\item Consectetur adipisicing elit
+\item Sed do eiusmod tempor
+\end{itemize}
+
+
+%%% Local Variables:
+%%% mode: TeX-PDF
+%%% TeX-master: "master"
+%%% End:
