@@ -1,13 +1,13 @@
 MASTER=_master
 FINALPDF=sstic-actes.pdf
-SRC=$(wildcard */*.tex)
+SRC=$(MASTER).tex $(wildcard */*.tex)
 LATEX=pdflatex
 LFLAGS=-halt-on-error
 
 BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
 
-$(FINALPDF): $(MASTER).tex $(SRC)
+$(FINALPDF): $(SRC)
 	$(LATEX) $(LFLAGS) $(MASTER).tex
 	make full
 	mv $(MASTER).pdf $(FINALPDF)
@@ -19,6 +19,9 @@ full: $(MASTER).ind
 
 %.ind:
 	makeindex $(MASTER)
+
+README: $(SRC)
+	@awk  '/^%% / { print substr($$0, 4)}' $(SRC) > $@
 
 .PHONY: snapshot clean
 snapshot: $(FINALPDF)

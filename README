@@ -1,0 +1,36 @@
+Découpage en sections
+=====================
+
+La classe llcns ne définit que 4 niveaux de sections :
+
+* section
+* subsection
+* subsubsection
+* paragraph
+
+Images, figures
+===============
+
+Les images doivent être placées dans un environnement figure de
+façon à pouvoir y associer facilement une légende et un label.
+
+Quelques notes:
+
+* La légende doit être en dessous de l'image
+* Format de l'image
+  - Compatible pdflatex : PNG, PDF
+  - Les formats vectoriels (comme PDF) sont recommandés car il
+    arrive de devoir redimensionner les images à l'édition
+    finale
+* Il est demandé de créér un répertoire img/ dédié à toutes les
+  images 
+* Prenez soin de vos couleurs, SSTIC n'imprime qu'en dégradé de
+  gris, votre choix de couleurs doit donc respecter cette
+  contrainte.
+  Votre article sera publié sur papier et sur notre site Web. Vous
+  pouvez donc fournir les images dans les deux "formats". Nommez
+  explicitement vos images avec le préfixe bw- (exemple: bw-archi.pdf)
+
+  À défaut d'avoir une version papier, nous la convertirons à
+  l'aide la commande suivante:
+   $ convert archi.pdf -colorspace Gray bw-archi.pdf
