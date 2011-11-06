@@ -55,7 +55,7 @@ deserunt mollit anim id est laborum.
 Je sais aussi faire des citations, dans l'article de Charlie
 Lembrouille, \cite{charlielembrouille}, il est démontré que, je cite,
 \og{}les trotinettes sont vulnérables aux attaques par XSS\fg{}. C'est
-moche !
+moche, l'image~\ref{fig:monnom:archi} en étant la preuve !
 
 %% Images, figures
 %% ===============
@@ -66,6 +66,11 @@ moche !
 %% Quelques notes:
 %% 
 %% * La légende doit être en dessous de l'image
+%% 
+%% * Le placement de l'image par LaTeX ne garantit pas que votre
+%%   image sera exactement où vous souhaitiez. Remplacez donc les
+%%   formules "l'image ci-dessous" mais plutôt par sa référence
+%%   ("l'image~\ref{fig:monnom:archi}")
 %% 
 %% * Format de l'image
 %%   - Compatible pdflatex : PNG, PDF
@@ -83,7 +88,7 @@ moche !
 %%   Votre article sera publié sur papier et sur notre site Web. Vous
 %%   pouvez donc fournir les images dans les deux "formats". Nommez
 %%   explicitement vos images avec le préfixe bw- (exemple: bw-archi.pdf)
-%%  
+%% 
 %%   À défaut d'avoir une version papier, nous la convertirons à
 %%   l'aide la commande suivante:
 %%       $ convert archi.pdf -colorspace Gray bw-archi.pdf
