@@ -44,3 +44,21 @@ Quelques notes:
   l'aide la commande suivante:
       $ convert archi.pdf -colorspace Gray bw-archi.pdf
 
+Texte verbatim
+==============
+
+lstlisting
+----------
+
+Documentation complète :  http://mirrors.ctan.org/macros/latex/contrib/listings/listings.pdf
+
+Options utiles :
+
+* ``language'' peut prendre les valeurs suivantes:
+   Python	Java		PHP		[x86masm]Assembler
+   C		Perl		HTML		[Sharp]C
+
+* ``numbers'' pour numéroter les ligne (``stepnumbers'' pour  contrôler l'incrément)
+
+* ``basicstyle'' pour modifier la police utilisée (exemple: basicstyle=\tiny)
+

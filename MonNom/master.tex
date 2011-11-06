@@ -120,9 +120,69 @@ Avec des listes partout :
 
 \begin{itemize}
 \item Lorem ipsum dolor sit amet
+  \begin{itemize}
+  \item Parce que je le vaux bien
+  \item N'est-ce pas ?
+  \end{itemize}
 \item Consectetur adipisicing elit
 \item Sed do eiusmod tempor
 \end{itemize}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+
+\section{Use the source, Luke}
+
+%% Texte verbatim
+%% ==============
+%% 
+%% lstlisting
+%% ----------
+%% 
+%% Documentation complète :  http://mirrors.ctan.org/macros/latex/contrib/listings/listings.pdf
+%% 
+%% Options utiles :
+%% 
+%% * ``language'' peut prendre les valeurs suivantes:
+%%    Python	Java		PHP		[x86masm]Assembler
+%%    C		Perl		HTML		[Sharp]C
+%% 
+%% * ``numbers'' pour numéroter les ligne (``stepnumbers'' pour  contrôler l'incrément)
+%% 
+%% * ``basicstyle'' pour modifier la police utilisée (exemple: basicstyle=\tiny)
+%% 
+
+Des fois, je peux aussi inclure du texte brut, comme la sortie
+standard en figure~\ref{lst:monnom:outhello} qui a été généré par le
+code~\ref{lst:monnom:helloword}.
+
+\begin{lstlisting}[language={},caption={Sortie standard},label={lst:monnom:outhello}]
+Hello world everybody
+\end{lstlisting}
+
+\begin{lstlisting}[language={Python},caption={Mon premier code},label={lst:monnom:helloword}]
+#! /usr/bin/env python
+
+import sys
+
+def hello(name):
+    print 'Hello world %s' % (name)
+
+if __name__ == '__main__':
+    hello(sys.argv[1] if len(sys.argv) > 1 else 'everybody')
+\end{lstlisting}
 
 
 %%% Local Variables:
