@@ -1,4 +1,30 @@
+%%                       Template LaTeX pour SSTIC
+%% 
+%% 
+%% Utilisation
+%% ===========
+%% 
+%% Pour compiler les sources, c'est aussi simple que :
+%%     $ make
+%% 
+%% Le résultat est dans sstic-actes.pdf
+%% 
+%% Ce modèle doit être la base commune à tous les articles LaTeX pour
+%% SSTIC.
+%% 
+%% Un exemple d'article est disponible dans le répertoire MonNom/ En
+%% tant qu'auteur, vous devez copier ce répertoire et l'adapter.
+%% 
+%% Important : Vous ne devez pas pas toucher aux fichiers préfixés par _
+%% 
+
 \documentclass[b5paper,11pt]{llncs}
+
+%% Nous avons déjà sélectionné quelques packages, si vous avez besoin
+%% d'ajouter un nouveau package, veuillez contacter l'équipe (actes
+%% (AT) lists.sstic.org) car nous devons vérifier la compatibilité des
+%% modules entre eux.
+%% 
 
 \usepackage[french]{babel}
 \usepackage[utf8x]{inputenc}
@@ -100,11 +126,24 @@
 \tableofcontents
 \mainmatter
 
+
 \input{_mainmatter/master}
 
 \input{_backmatter/master}
 \end{document}
 
+%% Publication
+%% ===========
+%% 
+%% Vous devez envoyer les *sources* à actes (AT) lists.sstic.org avant
+%% la date butoir.
+%% 
+%% L'auteur consciencieux prendre soin de corriger tous les warnings
+%% avant de nous envoyer ses sources :)
+%%
+%% Vous pouvez envoyer une archive complète (.tar.gz), ou un patch, ou
+%% un lien vers votre repository, etc.
+%% 
 %%% Local Variables:
 %%% mode: TeX-PDF
 %%% TeX-master: "master"
