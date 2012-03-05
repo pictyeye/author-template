@@ -52,11 +52,6 @@ voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
 sint occaecat cupidatat non proident, sunt in culpa qui officia
 deserunt mollit anim id est laborum.
 
-Je sais aussi faire des citations, dans l'article de Charlie
-Lembrouille, \cite{charlielembrouille}, il est démontré que, je cite,
-\og{}les trotinettes sont vulnérables aux attaques par XSS\fg{}. C'est
-moche, l'image~\ref{fig:monnom:archi} en étant la preuve !
-
 %% Images, figures
 %% ===============
 %% 
@@ -79,7 +74,10 @@ moche, l'image~\ref{fig:monnom:archi} en étant la preuve !
 %%     finale
 %% 
 %% * Il est demandé de créér un répertoire img/ dédié à toutes les
-%%   images 
+%%   images
+%% 
+%% * La référence doit être préfixée par votre fig:monnom pour éviter
+%%   les collisions entre auteurs
 %% 
 %% * Prenez soin de vos couleurs, SSTIC n'imprime qu'en dégradé de
 %%   gris, votre choix de couleurs doit donc respecter cette
@@ -115,6 +113,33 @@ commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
 occaecat cupidatat non proident, sunt in culpa qui officia deserunt
 mollit anim id est laborum.
+
+%% Citations
+%% =========
+%% 
+%% * Les références de citation doivent être préfixées par votre nom
+%%   afin d'empêcher les collisions entre auteurs.
+%% 
+%% * La bibliographie doit être dans contenue dans le fichier
+%%   biblio.bib au format BibTeX
+%%   Référence des types : http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node6.html
+%%   Référence des champs: http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node7.html
+%% 
+%% * Faîtes attention aux warning indiquant les références manquantes
+%%
+%% * Attention à la syntaxe lorsque vous citez plusieurs références:
+%%   MAUVAIS: \cite{foo, bar}
+%%   MAUVAIS: \cite{foo}\cite{bar}
+%%   CORRECT: \cite{foo,bar}
+%% 
+
+Je sais aussi faire des citations, dans l'article de Charlie
+Lembrouille, \cite{monnom:charlielembrouille}, il est démontré que, je cite,
+\og{}les trotinettes sont vulnérables aux attaques par XSS\fg{}. C'est
+moche, l'image~\ref{fig:monnom:archi} en étant la preuve !
+
+Si une citation est manquante (comme \cite{monnom:referencefoireuse}),
+un warning en rouge s'affichera lors de la compilation.
 
 Avec des listes partout :
 
@@ -184,6 +209,7 @@ if __name__ == '__main__':
     hello(sys.argv[1] if len(sys.argv) > 1 else 'everybody')
 \end{lstlisting}
 
+\bibliography{MonNom/biblio}
 
 %%% Local Variables:
 %%% mode: TeX-PDF
