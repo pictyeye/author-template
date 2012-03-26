@@ -14,7 +14,8 @@ $(FINALPDF): $(SRC)
 	mv $(MASTER).pdf $(FINALPDF)
 
 full: $(MASTER).ind
-	$(LATEX) $(LFLAGS) $(MASTER).tex | grep --color 'LaTeX Warning.*'
+	$(LATEX) $(LFLAGS) $(MASTER).tex
+	-grep --color 'Warning.*' $(MASTER).log
 	@grep -Eqc $(BIB_MISSING) $(MASTER).log && $(LATEX) $(MASTER).tex > /dev/null ; true
 	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER).log && $(LATEX) $(MASTER).tex > /dev/null; true
 
