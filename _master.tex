@@ -37,6 +37,16 @@
 \usepackage{ifthen}
 \usepackage{url}
 
+% Hack to have agenda working
+\newcommand{\pause}[1]{\emph{#1}}
+
+% Needed by a lot of people
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{arrows,positioning}
+\usetikzlibrary{patterns}
+
+
 \usepackage{makeidx}
 \makeindex
 
@@ -109,7 +119,7 @@
 \fancyhead[RE]{\truncate{.90\headwidth}{\theshorttitle}}
 \fancyhead[LO]{\theshortauthor}
 
-\newcommand\myclearpage{\thispagestyle{empty}}
+\newcommand{\myclearpage}{\newpage{\pagestyle{empty}\cleardoublepage}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -119,14 +129,17 @@
 
 \begin{document}
 
+\pagestyle{empty}
 \frontmatter
 
 \input{_frontmatter/master}
 
 \tableofcontents
 \mainmatter
+\pagestyle{fancy}
 
 
+\renewcommand{\thelstlisting}{\arabic{lstlisting}}
 \input{_mainmatter/master}
 
 \input{_backmatter/master}
