@@ -1,11 +1,15 @@
 \part*{Conférences}
 \addcontentsline{toc}{part}{Conférences}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\input{MonNom/master}
+\newcommand{\inputarticle}[1]{%
+\input{#1/master}
 \myclearpage
 \renewcommand{\thesection}{\arabic{section}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\inputarticle{MonNom}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
