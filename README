@@ -117,3 +117,12 @@ Options utiles :
 
 * ``basicstyle'' pour modifier la police utilisée (exemple: basicstyle=\tiny)
 
+
+FAQ
+===
+
+Q) LaTeX m'insulte avec le message sordide suivant :
+! pdfTeX error (font expansion): auto expansion is only possible with scalable fonts.
+
+R) Afin de fonctionner les packages séléctionnés nécessitent l'installation du paquetage
+Debian cm-super.
