@@ -1,11 +1,21 @@
 MASTER=_master
 FINALPDF=sstic-actes.pdf
 FINALHTML=$(FINALPDF:pdf=html)
+FINALEPUB=$(FINALHTML:html=epub)
+FINALAZW3=$(FINALHTML:html=azw3)
+FINALMOBI=$(FINALHTML:html=mobi)
 SRC=$(MASTER).tex $(wildcard */*.tex)
 SRCEBK=$(MASTER)-ebook.tex $(wildcard */*.tex)
 LATEX?=pdflatex
 HTLATEX=htlatex
 LFLAGS?=-halt-on-error
+
+# ebook metadata
+CALFLAGS+=--book-producer STIC --publisher STIC
+CALFLAGS+=--series SSTIC2014 --language fr
+-include article/metadata.mk
+AUTHORS?=SSTIC
+CALFLAGS+=--authors $(AUTHORS)
 
 IMGPDFS=$(wildcard */img/*.pdf)
 IMGEPSS=$(foreach img, $(IMGPDFS), $(img:pdf=eps))
@@ -58,6 +68,17 @@ README: $(SRC)
 $(IMGPNGS): $(IMGJPGS)
 $(IMGEPSS): $(IMGPDFS)
 
+%.epub: %.html
+	ebook-convert $< $@ $(CALFLAGS)
+
+%.mobi: %.html
+	ebook-convert $< $@ $(CALFLAGS)
+
+%.azw3: %.mobi
+	# ebook-convert doesn't rasterize svgs for azw3, but Kindle svg parser seems
+	# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
+	ebook-convert $< $@ $(CALFLAGS)
+
 .PHONY: snapshot clean
 snapshot: $(FINALPDF)
 	mv $(FINALPDF) "$(FINALPDF:.pdf=-$(shell git rev-parse HEAD').pdf)"
@@ -66,4 +87,4 @@ clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.ps *.lof *.toc *.glg *.gls
 	rm -f *.ilg *.nlo *.nav *.snm *.glo *.glsmake *.ist *.out *.vrb *.lot *.idx *.ind
 	rm -f $(MASTER).pdf $(FINALPDF)
-	rm -f *.html
+	rm -f *.html $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
