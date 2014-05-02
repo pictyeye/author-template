@@ -20,7 +20,7 @@ full: $(MASTER).ind
 	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER).log && $(LATEX) $(MASTER).tex > /dev/null; true
 
 %.bbl:
-	bibtex $(MASTER)
+	bibtex $(MASTER) ||true
 	$(LATEX) $(LFLAGS) $(MASTER).tex
 
 %.ind:
