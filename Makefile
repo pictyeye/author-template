@@ -20,11 +20,11 @@ full: $(MASTER).ind
 	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER).log && $(LATEX) $(MASTER).tex > /dev/null; true
 
 %.bbl:
-	bibtex $(MASTER) ||true
-	$(LATEX) $(LFLAGS) $(MASTER).tex
+	bibtex $(@:.bbl=) ||true
+	$(LATEX) $(LFLAGS) $(@:.bbl=.tex)
 
 %.ind:
-	makeindex $(MASTER)
+	makeindex $(@:.ind=)
 
 README: $(SRC)
 	@awk  '/^%% / { print substr($$0, 4)}' $(SRC) > $@
