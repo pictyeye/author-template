@@ -24,8 +24,10 @@
 %% modules entre eux.
 %% 
 
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-\usepackage[utf8x]{inputenc}
 \usepackage[fit]{truncate}
 \usepackage{xspace}
 \usepackage[table]{xcolor}
@@ -35,6 +37,8 @@
 \usepackage{alltt}
 \usepackage{ifthen}
 \usepackage{url}
+
+\DeclareUnicodeCharacter{00A0}{~}
 
 % Hack to have agenda working
 \newcommand{\pause}[1]{\emph{#1}}
@@ -52,7 +56,6 @@
 \usepackage{makeidx}
 \makeindex
 
-\usepackage[T1]{fontenc}
 \usepackage{tabularx}
 \usepackage{array}
 \usepackage{multirow}
