@@ -61,7 +61,7 @@ README: $(SRC)
 	@awk  '/^%% / { print substr($$0, 4)}' $(SRC) > $@
 
 %.eps: %.pdf
-	pdftocairo $< $@
+	pdftocairo -eps $< $@
 
 %.png: %.jpg
 	convert $< $@
