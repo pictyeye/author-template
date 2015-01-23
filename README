@@ -29,7 +29,9 @@ Vous devez envoyer les *sources* à actes (AT) lists.sstic.org avant
 la date butoir.
 
 L'auteur consciencieux prendre soin de corriger tous les warnings
-avant de nous envoyer ses sources :)
+avant de nous envoyer ses sources :). En particulier, les erreurs les
+plus importantes sont signalées en rouge par la commande make.
+
 Vous pouvez envoyer une archive complète (.tar.gz), ou un patch, ou
 un lien vers votre repository, etc.
 
@@ -42,6 +44,15 @@ La classe llcns ne définit que 4 niveaux de sections :
 * subsection
 * subsubsection
 * paragraph
+
+Merci de *ne pas* redéfinir la profondeur des sections, en particulier
+le compteur secnumdepth.
+
+
+Si vous souhaitez mettre des annexes (en utilisant \appendix), il faut
+penser à mettre l'ensemble des annexes (depuis \appendix jusqu'à la
+fin de la dernière annexe) entre accolades. Ainsi, les sections de
+l'article suivant ne seront pas considéré à tort comme des annexes.
 
 Images, figures
 ===============
@@ -116,4 +127,63 @@ Options utiles :
 * ``numbers'' pour numéroter les ligne (``stepnumbers'' pour  contrôler l'incrément)
 
 * ``basicstyle'' pour modifier la police utilisée (exemple: basicstyle=\tiny)
+
+
+Mise en page
+============
+
+De manière générale, LaTeX fait un bon travail de mise en page. Dans
+tous les cas, ne vous souciez de la mise en page qu'à *la fin* de la
+rédaction.
+
+Si la mise en page ne vous plaît pas, évitez d'utiliser des sauts de
+ligne (\\) ou de page (\newpage) car cela casse la mise en page et
+nuit au rendu global. On préférera, si vraiment c'est nécessaire, les
+commandes \smallskip, \medskip et \bigskip qui s'intègrent mieux à
+l'algorithme de mise en page.
+
+En cas de doute, n'hésitez pas à poser la question à
+actes@lists.sstic.org. En effet, l'objetif est d'avoir un document
+unique contenant les différents articles. Homogénéiser les styles rend
+la lecture des actes plus agréables.
+
+Concernant les figures flottantes, elles ont vocation, comme leur nom
+l'indique, à *flotter*. Ne vous étonnez donc pas qu'elles
+n'apparaissent pas au bon endroit. Il est possible d'indiquer à LaTeX
+où on souhaiterait voir ces images. Lorsque vous en avez peu, les
+indications [ht] ou [h] suffisent. En revanche, si vous avez beaucoup
+de figures, LaTeX peut refuser d'en mettre plus de deux par
+page. Auquel cas vous pouvez essayer [p], qui regroupe les figures sur
+de pages dédiées. Le rendu obtenu est souvent préférable à ce que l'on
+obtient en forçant le positionnement des figures.
+
+
+FAQ
+===
+
+Q) LaTeX m'insulte avec le message sordide suivant :
+! pdfTeX error (font expansion): auto expansion is only possible with scalable fonts.
+
+R) Afin de fonctionner les packages séléctionnés nécessitent
+l'installation du paquetage Debian cm-super.
+
+
+Q) Autre message sordide de LaTeX:
+LaTeX Warning: Characters dropped after `\end{verbatim}'
+
+R) Le package verbatim change la façon dont les environnements du même
+nom sont interprétés.  En particulier, si vous avez une ligne de la
+forme '\end{verbatim}}', la seconde accolade, ce qui mène logiquement
+à une problème plus loin.
+
+
+Q) Puis-je redéfinir des commandes (newcommand / renewcommand) ?
+
+R) Si ce sont des commandes perso (TODO, myurl), vous pouvez, mais
+pensez à préfixer ces commandes par votre nom ou quelque chose les
+rendant uniques (pour éviter la collision avec d'autres articles). Si
+ce sont des commandes standard (labelitemi, secnumdepth), la réponse
+est *non*. En effet, cela nuit à l'homogénéité des actes, et surtout,
+cela risque de casser les articles suivant le vôtre dans le
+document. En cas de doute, contactez la liste actes@.
 

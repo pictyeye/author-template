@@ -11,7 +11,7 @@ $(FINALPDF): $(SRC)
 	$(LATEX) $(LFLAGS) $(MASTER).tex
 	make $(MASTER).bbl
 	make full
-	mv $(MASTER).pdf $(FINALPDF)
+	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dCompatibilityLevel=1.6 $(MASTER).pdf < /dev/null
 
 full: $(MASTER).ind
 	$(LATEX) $(LFLAGS) $(MASTER).tex
