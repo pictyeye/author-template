@@ -17,10 +17,12 @@ tant qu'auteur, vous devez copier ce répertoire et l'adapter.
 
 Important : Vous ne devez pas pas toucher aux fichiers préfixés par _
 
-Nous avons déjà sélectionné quelques packages, si vous avez besoin
-d'ajouter un nouveau package, veuillez contacter l'équipe (actes
-(AT) lists.sstic.org) car nous devons vérifier la compatibilité des
-modules entre eux.
+Nous avons déjà sélectionné quelques packages. D'ailleurs, ces
+derniers nécessitent parfois d'installer des paquetages systèmes
+(lmodern pour lmodern, cm-super pour microtype). Si vous avez besoin
+d'ajouter un nouveau package, veuillez contacter l'équipe (actes (AT)
+lists.sstic.org) car nous devons vérifier la compatibilité des modules
+entre eux.
 
 Publication
 ===========
@@ -156,6 +158,26 @@ de figures, LaTeX peut refuser d'en mettre plus de deux par
 page. Auquel cas vous pouvez essayer [p], qui regroupe les figures sur
 de pages dédiées. Le rendu obtenu est souvent préférable à ce que l'on
 obtient en forçant le positionnement des figures.
+
+
+E-Book
+======
+
+La compilation des actes sous forme d'e-book se fait en appelant la
+commande make sstic-actes.{azw3,mobi,epub} (choisir l'extension
+voulue.
+
+Elle nécessite, en plus des paquetages LaTeX décrits ci-dessus, les
+outils suivants (les paquetages LaTeX sont indiqués entre parenthèses)
+ - htlatex (tex4ht)
+ - ebook-convert (calibre)
+ - cssselect (python-cssselect)
+
+La génération des e-books est un procédé incertain et fragile,
+utilisant divers formats (HTML entre autres) et de nombreux outils qui
+ne fonctionnent que grâce à la magie noire et à beaucoup de
+scotch. Cela explique que la commande peut échouer, ou ne pas rendre
+les actes de manière fidèle.
 
 
 FAQ

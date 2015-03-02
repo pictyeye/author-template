@@ -13,7 +13,7 @@ LFLAGS?=-halt-on-error
 
 # ebook metadata
 CALFLAGS+=--book-producer STIC --publisher STIC
-CALFLAGS+=--series SSTIC2014 --language fr
+CALFLAGS+=--series SSTIC2015 --language fr
 -include article/metadata.mk
 AUTHORS?=SSTIC
 CALFLAGS+=--authors $(AUTHORS)
@@ -88,4 +88,7 @@ clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.ps *.lof *.toc *.glg *.gls
 	rm -f *.ilg *.nlo *.nav *.snm *.glo *.glsmake *.ist *.out *.vrb *.lot *.idx *.ind
 	rm -f $(MASTER).pdf $(FINALPDF)
-	rm -f *.html $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
+	rm -f $(MASTER)-ebook.4ct $(MASTER)-ebook.4tc $(MASTER)-ebook.css
+	rm -f $(MASTER)-ebook.idv $(MASTER)-ebook.lg $(MASTER)-ebook.tmp
+	rm -f $(MASTER)-ebook.xref $(MASTER)-ebook.html
+	rm -f $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
