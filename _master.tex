@@ -26,6 +26,19 @@
 %% modules entre eux.
 %% 
 
+% Bug:
+% llncs + babel make figure captions bold + smallcaps, which is impossible
+% with lmodern fonts. A first solution is to tell babel not to add smallcaps.
+% With texlive 2014, the correct solution is the following
+%   \newif\ifFBSmallCapsFigTabCaptions  \FBSmallCapsFigTabCaptionstrue
+%   \usepackage[french]{babel}
+%   \frenchbsetup{SmallCapsFigTabCaptions=false}
+% Since all our authors might not be using texlive 2014, here is another solution
+\usepackage[french]{babel}
+\AtBeginDocument{%
+\def\figurename{Figure}
+\def\tablename{Table}
+}
 \usepackage[french,british,UKenglish,english,USenglish,american]{babel}
 % Bug:
 % babel wrongly warns about Figure/Table captions being possibly wrong in French
