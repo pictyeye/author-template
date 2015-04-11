@@ -27,6 +27,10 @@
 %% 
 
 \usepackage[french,british,UKenglish,english,USenglish,american]{babel}
+% Bug:
+% babel wrongly warns about Figure/Table captions being possibly wrong in French
+% Since the warning does not apply here (false positive), we can remove it.
+\frenchbsetup{SuppressWarning=true}
 \usepackage[utf8x]{inputenc}
 \usepackage[fit]{truncate}
 \usepackage{xspace}
