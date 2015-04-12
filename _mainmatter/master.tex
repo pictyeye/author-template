@@ -2,8 +2,10 @@
 \addcontentsline{toc}{part}{Conférences}
 
 \newcommand{\inputarticle}[1]{%
+\bgroup
 \input{#1/master}
 \myclearpage
+\egroup
 \renewcommand{\thesection}{\arabic{section}}
 }
 
