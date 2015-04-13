@@ -190,6 +190,12 @@ R) Afin de fonctionner les packages séléctionnés nécessitent
 l'installation du paquetage Debian cm-super.
 
 
+Q) LaTeX emet le message d'erreur suivant :
+! LaTeX Error: File `ean13.tex' not found.
+
+R) Il vous faut installer le package Debian texlive-fonts-extra.
+
+
 Q) Autre message sordide de LaTeX:
 LaTeX Warning: Characters dropped after `\end{verbatim}'
 
