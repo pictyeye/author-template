@@ -18,9 +18,9 @@ CALFLAGS+=--series SSTIC2015 --language fr
 AUTHORS?=SSTIC
 CALFLAGS+=--authors $(AUTHORS)
 
-IMGPDFS=$(wildcard */img/*.pdf)
+IMGPDFS=$(wildcard */img/*.pdf */img/**/*.pdf)
 IMGEPSS=$(foreach img, $(IMGPDFS), $(img:pdf=eps))
-IMGJPGS=$(wildcard */img/*.jpg)
+IMGJPGS=$(wildcard */img/*.jpg */img/**/*.jpg)
 IMGPNGS=$(foreach img, $(IMGJPGS), $(img:jpg=png))
 
 BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
