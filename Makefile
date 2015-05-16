@@ -75,7 +75,7 @@ $(IMGEPSS): $(IMGPDFS)
 %.mobi: %.html
 	ebook-convert $< $@ $(CALFLAGS)
 
-%.azw3: %.mobi
+%.azw3: %.epub
 	# ebook-convert doesn't rasterize svgs for azw3, but Kindle svg parser seems
 	# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
 	ebook-convert $< $@ $(CALFLAGS)
