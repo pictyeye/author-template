@@ -26,7 +26,24 @@
 %% modules entre eux.
 %% 
 
+% Bug:
+% llncs + babel make figure captions bold + smallcaps, which is impossible
+% with lmodern fonts. A first solution is to tell babel not to add smallcaps.
+% With texlive 2014, the correct solution is the following
+%   \newif\ifFBSmallCapsFigTabCaptions  \FBSmallCapsFigTabCaptionstrue
+%   \usepackage[french]{babel}
+%   \frenchbsetup{SmallCapsFigTabCaptions=false}
+% Since all our authors might not be using texlive 2014, here is another solution
+\usepackage[french]{babel}
+\AtBeginDocument{%
+\def\figurename{Figure}
+\def\tablename{Table}
+}
 \usepackage[french,british,UKenglish,english,USenglish,american]{babel}
+% Bug:
+% babel wrongly warns about Figure/Table captions being possibly wrong in French
+% Since the warning does not apply here (false positive), we can remove it.
+\frenchbsetup{SuppressWarning=true}
 \usepackage[utf8x]{inputenc}
 \usepackage[fit]{truncate}
 \usepackage{xspace}
@@ -49,6 +66,7 @@
 \usetikzlibrary{arrows,positioning}
 \usetikzlibrary{patterns}
 \usetikzlibrary{shapes}
+\usetikzlibrary{automata}
 
 
 \usepackage{makeidx}
@@ -57,6 +75,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{longtable}
 \usepackage{multirow}
 \usepackage{lscape}
 
@@ -70,6 +89,7 @@
 
 \usepackage{microtype}     % Needs the cm-super Debian package
 \usepackage{lmodern}
+\usepackage{eurosym}
 
 \usepackage{verbatim}
 \usepackage{amsmath}
@@ -77,6 +97,10 @@
 \usepackage{pifont}
 \usepackage{pmboxdraw}
 \usepackage{fancyvrb}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tcolorbox}
 
 \renewcommand\andname{et}
 \renewcommand\lastandname{ et}
