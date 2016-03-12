@@ -32,18 +32,17 @@
 %   \usepackage[french]{babel}
 %   \frenchbsetup{SmallCapsFigTabCaptions=false}
 % Since all our authors might not be using texlive 2014, here is another solution
-\usepackage[english,french]{babel}
 \AtBeginDocument{%
 \def\figurename{Figure}
 \def\tablename{Table}
 }
+\usepackage[french,british,UKenglish,english,USenglish,american]{babel}
 % Bug:
 % babel wrongly warns about Figure/Table captions being possibly wrong in French
 % Since the warning does not apply here (false positive), we can remove it.
 \frenchbsetup{SuppressWarning=true}
 \usepackage[utf8]{inputenc}
 \usepackage{textcomp}
-\usepackage[T1]{fontenc}
 \usepackage[fit]{truncate}
 \usepackage{xspace}
 \usepackage[table]{xcolor}
@@ -75,6 +74,7 @@
 \usepackage{makeidx}
 \makeindex
 
+\usepackage[T1]{fontenc}
 \usepackage{tabularx}
 \usepackage{array}
 \usepackage{longtable}
@@ -84,6 +84,7 @@
 \usepackage{subfigure}
 
 \usepackage{etoolbox}
+\usepackage[fancy]{tikz-inet}
 \usetikzlibrary{shapes,backgrounds}
 
 \usetikzlibrary{trees}
@@ -100,7 +101,7 @@
 \usepackage{fancyvrb}
 
 \usepackage{algorithm}
-\usepackage{algpseudocode}
+\usepackage[noend]{algpseudocode}
 \usepackage{tcolorbox}
 
 \renewcommand\andname{et}
