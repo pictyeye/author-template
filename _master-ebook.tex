@@ -24,10 +24,25 @@
 %% modules entre eux.
 %% 
 
+% Bug:
+% llncs + babel make figure captions bold + smallcaps, which is impossible
+% with lmodern fonts. A first solution is to tell babel not to add smallcaps.
+% With texlive 2014, the correct solution is the following
+%   \newif\ifFBSmallCapsFigTabCaptions  \FBSmallCapsFigTabCaptionstrue
+%   \usepackage[french]{babel}
+%   \frenchbsetup{SmallCapsFigTabCaptions=false}
+% Since all our authors might not be using texlive 2014, here is another solution
+\AtBeginDocument{%
+\def\figurename{Figure}
+\def\tablename{Table}
+}
+\usepackage[french,british,UKenglish,english,USenglish,american]{babel}
+% Bug:
+% babel wrongly warns about Figure/Table captions being possibly wrong in French
+% Since the warning does not apply here (false positive), we can remove it.
+\frenchbsetup{SuppressWarning=true}
 \usepackage[utf8]{inputenc}
 \usepackage{textcomp}
-\usepackage[T1]{fontenc}
-\usepackage[french]{babel}
 \usepackage[fit]{truncate}
 \usepackage{xspace}
 \usepackage[table]{xcolor}
@@ -43,12 +58,15 @@
 % Hack to have agenda working
 \newcommand{\pause}[1]{\emph{#1}}
 
+% use dvips, ebook readers don't cope to well with svg
+\def\pgfsysdriver{pgfsys-dvips.def}
 % Needed by a lot of people
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usetikzlibrary{arrows,positioning}
 \usetikzlibrary{patterns}
 \usetikzlibrary{shapes}
+\usetikzlibrary{automata}
 
 % htlatex uses latex in dvi mode so force the extension to something (either png or eps)
 \DeclareGraphicsExtensions{.eps, .png}
@@ -56,25 +74,35 @@
 \usepackage{makeidx}
 \makeindex
 
+\usepackage[T1]{fontenc}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{longtable}
 \usepackage{multirow}
 \usepackage{lscape}
 
 \usepackage{subfigure}
 
 \usepackage{etoolbox}
+\usepackage[fancy]{tikz-inet}
 \usetikzlibrary{shapes,backgrounds}
 
 \usetikzlibrary{trees}
 
 \usepackage{microtype}     % Needs the cm-super Debian package
+\usepackage{lmodern}
+\usepackage{eurosym}
 
 \usepackage{verbatim}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{pifont}
 \usepackage{pmboxdraw}
 \usepackage{fancyvrb}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tcolorbox}
 
 \renewcommand\andname{et}
 \renewcommand\lastandname{ et}
