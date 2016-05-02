@@ -42,6 +42,7 @@
 \let\switcht@@therlang\relax
 \def\ds@deutsch{\def\switcht@@therlang{\switcht@deutsch}}
 \def\ds@francais{\def\switcht@@therlang{\switcht@francais}}
+\def\ds@french{\def\switcht@@therlang{\switcht@francais}}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 
@@ -873,6 +874,7 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
 \@ifpackageloaded{babel}{%
 \@ifundefined{extrasenglish}{}{\addto\extrasenglish{\switcht@albion}}%
 \@ifundefined{extrasfrenchb}{}{\addto\extrasfrenchb{\switcht@francais}}%
+\@ifundefined{extrasfrench}{}{\addto\extrasfrench{\switcht@francais}}%
 \@ifundefined{extrasgerman}{}{\addto\extrasgerman{\switcht@deutsch}}%
 }{\switcht@@therlang}%
 }
