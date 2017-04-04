@@ -30,7 +30,8 @@ $(FINALPDF): $(SRC)
 	$(LATEX) $(LFLAGS) $(MASTER).tex
 	make $(MASTER).bbl
 	make full
-	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dCompatibilityLevel=1.6 $(MASTER).pdf < /dev/null
+	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $(MASTER).pdf < /dev/null
+
 
 $(FINALHTML): $(SRCEBK) $(IMGPNGS) $(IMGEPSS)
 	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
