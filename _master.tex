@@ -1,22 +1,22 @@
 %%                       Template LaTeX pour SSTIC
-%% 
-%% 
+%%
+%%
 %% Utilisation
 %% ===========
-%% 
+%%
 %% Pour compiler les sources, c'est aussi simple que :
 %%     $ make
-%% 
+%%
 %% Le résultat est dans sstic-actes.pdf
-%% 
+%%
 %% Ce modèle doit être la base commune à tous les articles LaTeX pour
 %% SSTIC.
-%% 
+%%
 %% Un exemple d'article est disponible dans le répertoire MonNom/ En
 %% tant qu'auteur, vous devez copier ce répertoire et l'adapter.
-%% 
+%%
 %% Important : Vous ne devez pas pas toucher aux fichiers préfixés par _
-%% 
+%%
 
 \documentclass[b5paper,11pt]{llncs}
 
@@ -24,8 +24,11 @@
 %% d'ajouter un nouveau package, veuillez contacter l'équipe (actes
 %% (AT) lists.sstic.org) car nous devons vérifier la compatibilité des
 %% modules entre eux.
-%% 
+%%
 
+%%%%%%%%%
+% Babel %
+%%%%%%%%%
 % Bug:
 % llncs + babel make figure captions bold + smallcaps, which is impossible
 % with lmodern fonts. A first solution is to tell babel not to add smallcaps.
@@ -43,23 +46,49 @@
 % babel wrongly warns about Figure/Table captions being possibly wrong in French
 % Since the warning does not apply here (false positive), we can remove it.
 \frenchbsetup{SuppressWarning=true}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fonts and similar stuff %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[utf8x]{inputenc}
 \usepackage[fit]{truncate}
 \usepackage{xspace}
+\usepackage{ean13isbn}     % Requires the texlive-fonts-extra Debian package
+\usepackage[T1]{fontenc}
+\usepackage{microtype}     % Requires the cm-super Debian package
+\usepackage{lmodern}
+\usepackage{eurosym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pifont}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphics, listing... %
+%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
-\usepackage{fancyhdr}
 \usepackage{listings}
-\usepackage{alltt}
-\usepackage{ifthen}
-\usepackage{url}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{etoolbox}
+\usepackage{subfigure}
+\usepackage{verbatim}
+\usepackage{pmboxdraw}
+\usepackage{fancyvrb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tcolorbox}
 
-\usepackage{ean13isbn}
 
-% Hack to have agenda working
-\newcommand{\pause}[1]{\emph{#1}}
-
-% Needed by a lot of people
+%%%%%%%%
+% TikZ %
+%%%%%%%%
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usetikzlibrary{arrows,positioning}
@@ -67,47 +96,32 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{automata}
 \usetikzlibrary{calc}
-
-
-\usepackage{makeidx}
-\makeindex
-
-\usepackage[T1]{fontenc}
-\usepackage{tabularx}
-\usepackage{array}
-\usepackage{longtable}
-\usepackage{multirow}
-\usepackage{lscape}
-
-\usepackage{subfigure}
-
-\usepackage{etoolbox}
 \usepackage[fancy]{tikz-inet}
 \usetikzlibrary{shapes,backgrounds}
-
 \usetikzlibrary{trees}
 
-\usepackage{microtype}     % Needs the cm-super Debian package
-\usepackage{lmodern}
-\usepackage{eurosym}
 
-\usepackage{verbatim}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{pifont}
-\usepackage{pmboxdraw}
-\usepackage{fancyvrb}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Biblio, index and acronyms %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{makeidx}
+\makeindex
+\usepackage[nolist]{acronym}
+\usepackage[sort]{cite}
 
-\usepackage{algorithm}
-\usepackage[noend]{algpseudocode}
-\usepackage{tcolorbox}
+
+%%%%%%%%
+% Misc %
+%%%%%%%%
+\usepackage{alltt}
+\usepackage{ifthen}
+\usepackage[hyphens]{url}
+\usepackage[super]{nth}
+\usepackage[binary-units=true]{siunitx}
+
 
 \renewcommand\andname{et}
 \renewcommand\lastandname{ et}
-
-\newcommand{\xxx}{{\bf \LARGE \textcolor{red}{XXX}}\xspace}
-\newcommand{\XXX}{\xxx}
-\newtheorem{exx}{Exemple}
 
 \def\keywordname{{\bf Mots-cl\'es:}}
 \def\ackname{Remerciements.}
@@ -194,16 +208,16 @@
 
 %% Publication
 %% ===========
-%% 
+%%
 %% Vous devez envoyer les *sources* à actes (AT) lists.sstic.org avant
 %% la date butoir.
-%% 
+%%
 %% L'auteur consciencieux prendre soin de corriger tous les warnings
 %% avant de nous envoyer ses sources :)
 %%
 %% Vous pouvez envoyer une archive complète (.tar.gz), ou un patch, ou
 %% un lien vers votre repository, etc.
-%% 
+%%
 %%% Local Variables:
 %%% mode: TeX-PDF
 %%% TeX-master: "master"

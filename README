@@ -71,6 +71,10 @@ Quelques notes:
   formules "l'image ci-dessous" mais plutôt par sa référence
   ("l'image~\ref{fig:monnom:archi}")
 
+* il ne *FAUT* pas utiliser [H] pour forcer les figures flottantes
+  à une position donnée. Cela n'est pas une option standard et
+  elle est incompatible avec certains packages.
+
 * Format de l'image
   - Compatible pdflatex : PNG, PDF
   - Les formats vectoriels (comme PDF) sont recommandés car il
@@ -157,7 +161,8 @@ indications [ht] ou [h] suffisent. En revanche, si vous avez beaucoup
 de figures, LaTeX peut refuser d'en mettre plus de deux par
 page. Auquel cas vous pouvez essayer [p], qui regroupe les figures sur
 de pages dédiées. Le rendu obtenu est souvent préférable à ce que l'on
-obtient en forçant le positionnement des figures.
+obtient en forçant le positionnement des figures. En aucun cas il ne
+faut utiliser [H] dans vos articles.
 
 
 E-Book
