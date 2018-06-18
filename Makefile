@@ -13,7 +13,7 @@ LFLAGS?=-halt-on-error
 
 # ebook metadata
 CALFLAGS+=--book-producer STIC --publisher STIC
-CALFLAGS+=--series SSTIC2015 --language fr
+CALFLAGS+=--series SSTIC2019 --language fr
 -include article/metadata.mk
 AUTHORS?=SSTIC
 CALFLAGS+=--authors $(AUTHORS)
@@ -25,6 +25,8 @@ IMGPNGS=$(foreach img, $(IMGJPGS), $(img:jpg=png))
 
 BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
+
+
 
 $(FINALPDF): $(SRC)
 	$(LATEX) $(LFLAGS) $(MASTER).tex
@@ -81,7 +83,7 @@ $(IMGEPSS): $(IMGPDFS)
 	# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
 	ebook-convert $< $@ $(CALFLAGS)
 
-.PHONY: snapshot clean
+.PHONY: snapshot clean targets
 snapshot: $(FINALPDF)
 	mv $(FINALPDF) "$(FINALPDF:.pdf=-$(shell git rev-parse HEAD').pdf)"
 
@@ -93,3 +95,25 @@ clean:
 	rm -f $(MASTER)-ebook.idv $(MASTER)-ebook.lg $(MASTER)-ebook.tmp
 	rm -f $(MASTER)-ebook.xref $(MASTER)-ebook.html
 	rm -f $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
+	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf standalone-targets
+
+
+targets:
+	@for d in [^_]*/; do \
+		i=$$(basename $$d); \
+		echo "$$i.tmp.tex: standalone.tex"; \
+		echo "	sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' standalone.tex > \$$@"; \
+		echo; \
+		echo "$$i.tmp.pdf: $$i.tmp.tex $$(ls $$i/*.tex)"; \
+		echo "	\$$(LATEX) \$$(LFLAGS) $$i.tmp.tex"; \
+		echo "	bibtex $$i.tmp.aux"; \
+		echo "	\$$(LATEX) \$$(LFLAGS) $$i.tmp.tex"; \
+		echo "	@grep -Eqc \$$(BIB_MISSING) $$i.tmp.log && \$$(LATEX) $$i.tmp.tex > /dev/null ; true"; \
+		echo "	@grep -Eqc \$$(REFERENCE_UNDEFINED) $$i.tmp.log && \$$(LATEX) $$i.tmp.tex > /dev/null; true"; \
+		echo "	-grep --color '\(Warning\|Overful\).*' $$i.tmp.log"; \
+		echo; \
+		echo "$$i.pdf: $$i.tmp.pdf"; \
+		echo "	gs -sOutputFile=\$$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $$< < /dev/null"; \
+	done > standalone-targets
+
+-include standalone-targets
