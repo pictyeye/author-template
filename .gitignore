@@ -28,3 +28,14 @@ sstic-actes.html
 sstic-actes.epub
 sstic-actes.mobi
 sstic-actes.azw3
+standalone-targets
+*.tmp.tex
+*.tmp.aux
+*.tmp.bbl
+*.tmp.blg
+*.tmp.idx
+*.tmp.ilg
+*.tmp.ind
+*.tmp.log
+*.tmp.toc
+*.tmp.pdf

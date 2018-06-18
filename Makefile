@@ -1,91 +1,44 @@
 MASTER=_master
 FINALPDF=sstic-actes.pdf
-FINALHTML=$(FINALPDF:pdf=html)
-FINALEPUB=$(FINALHTML:html=epub)
-FINALAZW3=$(FINALHTML:html=azw3)
-FINALMOBI=$(FINALHTML:html=mobi)
 SRC=$(MASTER).tex $(wildcard */*.tex)
-SRCEBK=$(MASTER)-ebook.tex $(wildcard */*.tex)
 LATEX?=pdflatex
-HTLATEX=htlatex
-HTFLAGS?="xhtml,charset=utf-8" " -cunihtf -utf8"
 LFLAGS?=-halt-on-error
-
-# ebook metadata
-CALFLAGS+=--book-producer STIC --publisher STIC
-CALFLAGS+=--series SSTIC2019 --language fr
--include article/metadata.mk
-AUTHORS?=SSTIC
-CALFLAGS+=--authors $(AUTHORS)
-
-IMGPDFS=$(wildcard */img/*.pdf */img/**/*.pdf)
-IMGEPSS=$(foreach img, $(IMGPDFS), $(img:pdf=eps))
-IMGJPGS=$(wildcard */img/*.jpg */img/**/*.jpg)
-IMGPNGS=$(foreach img, $(IMGJPGS), $(img:jpg=png))
 
 BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
 
 
+# # ebook variables
 
-$(FINALPDF): $(SRC)
-	$(LATEX) $(LFLAGS) $(MASTER).tex
-	make $(MASTER).bbl
-	make full
-	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $(MASTER).pdf < /dev/null
+# FINALHTML=$(FINALPDF:pdf=html)
+# FINALEPUB=$(FINALHTML:html=epub)
+# FINALAZW3=$(FINALHTML:html=azw3)
+# FINALMOBI=$(FINALHTML:html=mobi)
+# SRCEBK=$(MASTER)-ebook.tex $(wildcard */*.tex)
+# HTLATEX=htlatex
+# HTFLAGS?="xhtml,charset=utf-8" " -cunihtf -utf8"
+
+# # ebook metadata
+# CALFLAGS+=--book-producer STIC --publisher STIC
+# CALFLAGS+=--series SSTIC2019 --language fr
+# -include article/metadata.mk
+# AUTHORS?=SSTIC
+# CALFLAGS+=--authors $(AUTHORS)
+
+# IMGPDFS=$(wildcard */img/*.pdf */img/**/*.pdf)
+# IMGEPSS=$(foreach img, $(IMGPDFS), $(img:pdf=eps))
+# IMGJPGS=$(wildcard */img/*.jpg */img/**/*.jpg)
+# IMGPNGS=$(foreach img, $(IMGJPGS), $(img:jpg=png))
 
 
-$(FINALHTML): $(SRCEBK) $(IMGPNGS) $(IMGEPSS)
-	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
-	make LATEX=$(HTLATEX) LFLAGS="" $(MASTER)-ebook.bbl
-	make full-ebook
-	mv $(MASTER)-ebook.html $(FINALHTML)
 
-full: $(MASTER).ind
-	$(LATEX) $(LFLAGS) $(MASTER).tex
-	-grep --color '\(Warning\|Overful\).*' $(MASTER).log
-	@grep -Eqc $(BIB_MISSING) $(MASTER).log && $(LATEX) $(MASTER).tex > /dev/null ; true
-	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER).log && $(LATEX) $(MASTER).tex > /dev/null; true
+.PHONY: article actes clean targets export
 
-full-ebook: $(MASTER)-ebook.ind
-	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
-	-grep --color '\(Warning\|Overful\).*' $(MASTER)-ebook.log
-	@grep -Eqc $(BIB_MISSING) $(MASTER)-ebook.log && $(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS) > /dev/null ; true
-	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER)-ebook.log && $(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS) > /dev/null; true
 
-%.bbl:
-	bibtex $(@:.bbl=) ||true
-	$(LATEX) $(LFLAGS) $(@:.bbl=.tex)
+# Generic targets
+article: targets article.pdf
 
-%.ind:
-	makeindex $(@:.ind=)
-
-README: $(SRC)
-	@awk  '/^%% / { print substr($$0, 4)}' $(SRC) > $@
-
-%.eps: %.pdf
-	pdftocairo -eps $< $@
-
-%.png: %.jpg
-	convert $< $@
-
-$(IMGPNGS): $(IMGJPGS)
-$(IMGEPSS): $(IMGPDFS)
-
-%.epub: %.html
-	ebook-convert $< $@ $(CALFLAGS)
-
-%.mobi: %.html
-	ebook-convert $< $@ $(CALFLAGS)
-
-%.azw3: %.epub
-	# ebook-convert doesn't rasterize svgs for azw3, but Kindle svg parser seems
-	# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
-	ebook-convert $< $@ $(CALFLAGS)
-
-.PHONY: snapshot clean targets
-snapshot: $(FINALPDF)
-	mv $(FINALPDF) "$(FINALPDF:.pdf=-$(shell git rev-parse HEAD').pdf)"
+actes: $(FINALPDF)
 
 clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.ps *.lof *.toc *.glg *.gls
@@ -98,22 +51,89 @@ clean:
 	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf standalone-targets
 
 
+%.pdf: %.tex
+	$(LATEX) $(LFLAGS) $<
+	bibtex $(<:.tex=.aux) || true
+	$(LATEX) $(LFLAGS) $<
+	makeindex $(@:.pdf=.idx) || true
+	@grep -Eqc $(BIB_MISSING) $(<:.tex=.log) && $(LATEX) $< > /dev/null ; true
+	@grep -Eqc $(REFERENCE_UNDEFINED) $(<:.tex=.log) && $(LATEX) $< > /dev/null; true
+	-grep --color '\(Warning\|Overful\).*' $(<:.tex=.log)
+
+%.pdf: %.tmp.pdf
+	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null
+
+
+
+# Helpers for generic targets
+
+article.tmp.tex: standalone.tex
+	sed 's/@@DIRECTORY@@/$(@:.tmp.tex=)/' standalone.tex > $@
+
+
+$(FINALPDF): $(MASTER).pdf
+	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null
+
+$(MASTER).pdf: $(SRC)
+
+
+
+# Specific standalone targets
+
 targets:
-	@for d in [^_]*/; do \
+	@for d in [^_]*/; do if [ $$d != "article/" ]; then \
 		i=$$(basename $$d); \
 		echo "$$i.tmp.tex: standalone.tex"; \
 		echo "	sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' standalone.tex > \$$@"; \
 		echo; \
 		echo "$$i.tmp.pdf: $$i.tmp.tex $$(ls $$i/*.tex)"; \
-		echo "	\$$(LATEX) \$$(LFLAGS) $$i.tmp.tex"; \
-		echo "	bibtex $$i.tmp.aux"; \
-		echo "	\$$(LATEX) \$$(LFLAGS) $$i.tmp.tex"; \
-		echo "	@grep -Eqc \$$(BIB_MISSING) $$i.tmp.log && \$$(LATEX) $$i.tmp.tex > /dev/null ; true"; \
-		echo "	@grep -Eqc \$$(REFERENCE_UNDEFINED) $$i.tmp.log && \$$(LATEX) $$i.tmp.tex > /dev/null; true"; \
-		echo "	-grep --color '\(Warning\|Overful\).*' $$i.tmp.log"; \
 		echo; \
 		echo "$$i.pdf: $$i.tmp.pdf"; \
 		echo "	gs -sOutputFile=\$$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $$< < /dev/null"; \
-	done > standalone-targets
+	fi; done > standalone-targets
 
 -include standalone-targets
+
+
+
+
+# # ebook targets
+
+# $(FINALHTML): $(SRCEBK) $(IMGPNGS) $(IMGEPSS)
+# 	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
+# 	make LATEX=$(HTLATEX) LFLAGS="" $(MASTER)-ebook.bbl
+# 	make full-ebook
+# 	mv $(MASTER)-ebook.html $(FINALHTML)
+
+# full-ebook: $(MASTER)-ebook.ind
+# 	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
+# 	-grep --color '\(Warning\|Overful\).*' $(MASTER)-ebook.log
+# 	@grep -Eqc $(BIB_MISSING) $(MASTER)-ebook.log && $(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS) > /dev/null ; true
+# 	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER)-ebook.log && $(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS) > /dev/null; true
+
+# %.bbl:
+# 	bibtex $(@:.bbl=) ||true
+# 	$(LATEX) $(LFLAGS) $(@:.bbl=.tex)
+
+# %.ind:
+# 	makeindex $(@:.ind=)
+
+# %.eps: %.pdf
+# 	pdftocairo -eps $< $@
+
+# %.png: %.jpg
+# 	convert $< $@
+
+# $(IMGPNGS): $(IMGJPGS)
+# $(IMGEPSS): $(IMGPDFS)
+
+# %.epub: %.html
+# 	ebook-convert $< $@ $(CALFLAGS)
+
+# %.mobi: %.html
+# 	ebook-convert $< $@ $(CALFLAGS)
+
+# %.azw3: %.epub
+# 	# ebook-convert doesn't rasterize svgs for azw3, but Kindle svg parser seems
+# 	# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
+# 	ebook-convert $< $@ $(CALFLAGS)
