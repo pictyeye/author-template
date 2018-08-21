@@ -29,6 +29,7 @@ sstic-actes.epub
 sstic-actes.mobi
 sstic-actes.azw3
 standalone-targets
+_articles.tex
 *.tmp.tex
 *.tmp.aux
 *.tmp.bbl

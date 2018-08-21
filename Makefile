@@ -32,11 +32,11 @@ REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-refere
 
 
 
-.PHONY: article actes clean targets export
+.PHONY: default actes clean targets export
 
 
 # Generic targets
-article: targets article.pdf
+default: targets
 
 actes: $(FINALPDF)
 
@@ -48,7 +48,7 @@ clean:
 	rm -f $(MASTER)-ebook.idv $(MASTER)-ebook.lg $(MASTER)-ebook.tmp
 	rm -f $(MASTER)-ebook.xref $(MASTER)-ebook.html
 	rm -f $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
-	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf standalone-targets
+	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf _articles.tex standalone-targets
 
 
 %.pdf: %.tex
@@ -67,21 +67,23 @@ clean:
 
 # Helpers for generic targets
 
-article.tmp.tex: _standalone.tex
-	sed 's/@@DIRECTORY@@/$(@:.tmp.tex=)/' _standalone.tex > $@
-
-
 $(FINALPDF): $(MASTER).pdf
 	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null
 
-$(MASTER).pdf: $(SRC)
+$(MASTER).pdf: _articles.tex $(SRC)
 
 
 
 # Specific standalone targets
 
+_articles.tex:
+	@for d in [^_]*/; do \
+		i=$$(basename $$d); \
+		echo "\inputarticle{$$i}"; \
+	done > $@
+
 targets:
-	@for d in [^_]*/; do if [ $$d != "article/" ]; then \
+	@for d in [^_]*/; do \
 		i=$$(basename $$d); \
 		echo "$$i.tmp.tex: _standalone.tex"; \
 		echo "	sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' _standalone.tex > \$$@"; \
@@ -90,7 +92,9 @@ targets:
 		echo; \
 		echo "$$i.pdf: $$i.tmp.pdf"; \
 		echo "	gs -sOutputFile=\$$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $$< < /dev/null"; \
-	fi; done > standalone-targets
+		echo; \
+		echo "default: $$i.pdf"; \
+	done > standalone-targets
 
 -include standalone-targets
 
