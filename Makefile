@@ -67,8 +67,8 @@ clean:
 
 # Helpers for generic targets
 
-article.tmp.tex: standalone.tex
-	sed 's/@@DIRECTORY@@/$(@:.tmp.tex=)/' standalone.tex > $@
+article.tmp.tex: _standalone.tex
+	sed 's/@@DIRECTORY@@/$(@:.tmp.tex=)/' _standalone.tex > $@
 
 
 $(FINALPDF): $(MASTER).pdf
@@ -83,8 +83,8 @@ $(MASTER).pdf: $(SRC)
 targets:
 	@for d in [^_]*/; do if [ $$d != "article/" ]; then \
 		i=$$(basename $$d); \
-		echo "$$i.tmp.tex: standalone.tex"; \
-		echo "	sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' standalone.tex > \$$@"; \
+		echo "$$i.tmp.tex: _standalone.tex"; \
+		echo "	sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' _standalone.tex > \$$@"; \
 		echo; \
 		echo "$$i.tmp.pdf: $$i.tmp.tex $$(ls $$i/*.tex)"; \
 		echo; \
