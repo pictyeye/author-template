@@ -9,6 +9,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \let\ifssticbw\iffalse
 \DeclareOption{bw}{\let\ifssticbw\iftrue}
+\let\ifssticebook\iffalse
+\DeclareOption{ebook}{\let\ifssticebook\iftrue}
 
 \ProcessOptions
 
@@ -17,6 +19,10 @@
 % Fonts and similar stuff %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[utf8x]{inputenc}
+\ifssticebook
+  \RequirePackage{textcomp}
+  \DeclareUnicodeCharacter{00A0}{~}
+\fi
 \RequirePackage[fit]{truncate}
 \RequirePackage{xspace}
 \RequirePackage[T1]{fontenc}
@@ -41,8 +47,6 @@
 %%%%%%%%%%%
 % Headers %
 %%%%%%%%%%%
-\RequirePackage{fancyhdr}
-
 \newcommand{\theshorttitle}{}
 \newcommand\settitle[2][]{%
  \title{#2}%
@@ -59,13 +63,17 @@
   {\renewcommand{\theshortauthor}{#1}\tocauthor{#1}\authorrunning{#1}}%
 }
 
-\pagestyle{fancy}
-\fancyhf{}
-\setlength{\headheight}{16pt}
-\fancyhead[LE,RO]{\thepage}
-\fancyhead[RE]{\truncate{.90\headwidth}{\theshorttitle}}
-\fancyhead[LO]{\truncate{.90\headwidth}{\theshortauthor}}
+\ifssticebook
+\else
+  \RequirePackage{fancyhdr}
 
+  \pagestyle{fancy}
+  \fancyhf{}
+  \setlength{\headheight}{16pt}
+  \fancyhead[LE,RO]{\thepage}
+  \fancyhead[RE]{\truncate{.90\headwidth}{\theshorttitle}}
+  \fancyhead[LO]{\truncate{.90\headwidth}{\theshortauthor}}
+\fi
 
 
 
@@ -74,8 +82,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[table]{xcolor}
 \RequirePackage{graphicx}
-\RequirePackage{pgfplots}
-\pgfplotsset{compat=1.11}
+%\RequirePackage{pgfplots}
+%\pgfplotsset{compat=1.11}
 \RequirePackage{tabularx}
 \RequirePackage{array}
 \RequirePackage{longtable}
@@ -91,10 +99,11 @@
 \RequirePackage{booktabs}
 \RequirePackage{rotating}
 
+\ifssticebook
+  % use dvips, ebook readers don't cope to well with svg
+  \def\pgfsysdriver{pgfsys-dvips.def}
+\fi
 
-%%%%%%%%
-% TikZ %
-%%%%%%%%
 \RequirePackage{tikz}
 \RequirePackage{tikz-qtree}
 \usetikzlibrary{arrows,positioning}
@@ -104,6 +113,11 @@
 \RequirePackage[fancy]{tikz-inet}
 \usetikzlibrary{shapes,backgrounds}
 \usetikzlibrary{trees}
+
+\ifssticebook
+  % htlatex uses latex in dvi mode so force the extension to something (either png or eps)
+  \DeclareGraphicsExtensions{.eps, .png}
+\fi
 
 
 %%%%%%%%%%%%%%
