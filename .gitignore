@@ -28,7 +28,7 @@ sstic-actes.html
 sstic-actes.epub
 sstic-actes.mobi
 sstic-actes.azw3
-standalone-targets
+Makefile.standalone-targets
 _articles.tex
 *.tmp.tex
 *.tmp.aux

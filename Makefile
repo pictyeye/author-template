@@ -32,13 +32,18 @@ REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-refere
 
 
 
-.PHONY: default actes clean targets export
+.PHONY: default default_articles export export_articles actes clean
 
 
 # Generic targets
-default: targets
+default: Makefile.standalone-targets
+	make default_articles
 
 actes: $(FINALPDF)
+
+export: Makefile.standalone-targets
+	make export_articles
+
 
 clean:
 	rm -f *.aux *.bbl *.blg *.dvi *.log *.ps *.lof *.toc *.glg *.gls
@@ -48,7 +53,8 @@ clean:
 	rm -f $(MASTER)-ebook.idv $(MASTER)-ebook.lg $(MASTER)-ebook.tmp
 	rm -f $(MASTER)-ebook.xref $(MASTER)-ebook.html
 	rm -f $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
-	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf _articles.tex standalone-targets
+	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf
+	rm -f _articles.tex Makefile.standalone-targets
 
 
 %.pdf: %.tex
@@ -63,6 +69,8 @@ clean:
 %.pdf: %.tmp.pdf
 	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null
 
+%.tgz: %.pdf %
+	tar czf $@ $(@:.tgz=)/ $(@:.tgz=.pdf)
 
 
 # Helpers for generic targets
@@ -82,7 +90,7 @@ _articles.tex:
 		echo "\inputarticle{$$i}"; \
 	done > $@
 
-targets:
+Makefile.standalone-targets:
 	@for d in [^_]*/; do \
 		i=$$(basename $$d); \
 		echo "$$i.tmp.tex: _standalone.tex"; \
@@ -93,10 +101,11 @@ targets:
 		echo "$$i.pdf: $$i.tmp.pdf"; \
 		echo "	gs -sOutputFile=\$$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $$< < /dev/null"; \
 		echo; \
-		echo "default: $$i.pdf"; \
-	done > standalone-targets
+		echo "default_articles: $$i.pdf"; \
+		echo "export_articles: $$i.tgz"; \
+	done > Makefile.standalone-targets
 
--include standalone-targets
+-include Makefile.standalone-targets
 
 
 
