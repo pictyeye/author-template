@@ -32,15 +32,13 @@ REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-refere
 
 
 
-.PHONY: default default_articles export export_articles clean
+.PHONY: default export clean
 
 
 # Generic targets
 default: Makefile.standalone-targets
-	make default_articles
 
 export: Makefile.standalone-targets
-	make export_articles
 
 
 clean:
@@ -117,8 +115,8 @@ Makefile.standalone-targets:
 			echo "$$i.pdf: $$i.tmp.pdf"; \
 			echo "	gs -sOutputFile=\$$@ $(GSFLAGS) $$< < /dev/null > /dev/null"; \
 			echo; \
-			echo "default_articles: $$i.pdf"; \
-			echo "export_articles: $$i.tgz"; \
+			echo "default: $$i.pdf"; \
+			echo "export: $$i.tgz"; \
 			echo "Created targets for $$i." >&2; \
 			echo; \
 		else \
