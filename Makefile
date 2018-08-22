@@ -1,6 +1,4 @@
-MASTER=_master
-FINALPDF=sstic-actes.pdf
-SRC=$(MASTER).tex $(wildcard */*.tex)
+SRC=actes.tmp.tex $(wildcard */*.tex)
 LATEX?=pdflatex
 LFLAGS?=-halt-on-error
 
@@ -34,25 +32,26 @@ REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-refere
 
 
 
-.PHONY: default default_articles export export_articles actes clean
+.PHONY: default default_articles export export_articles clean
 
 
 # Generic targets
 default: Makefile.standalone-targets
 	make default_articles
 
-actes: $(FINALPDF)
-
 export: Makefile.standalone-targets
 	make export_articles
 
 
 clean:
-	rm -f *.aux *.bbl *.blg *.dvi *.log *.toc *.ilg *.out *.lot *.idx *.ind
-	rm -f *.tmp.tex *.tmp.pdf *.ebook.tex _articles.tex Makefile.standalone-targets
+	rm -f *.aux *.bbl *.blg *.idx *.ilg *.ind *.log *.toc
+	rm -f _master.pdf
+	rm -f _articles.tex Makefile.standalone-targets
+	rm -f *.tmp.tex *.tmp.pdf
+	rm -f *.ebook.tex *.ebook.css *.ebook.dvi *.ebook.html
 
 
-%.pdf: %.tex sstic.cls llncs.cls
+%.tmp.pdf: %.tmp.tex sstic.cls llncs.cls
 	@rm -f $(@:.pdf=.aux) $(@:.pdf=.idx)
 	$(LATEX) $(LFLAGS) $< > /dev/null
 	bibtex $(@:.pdf=.aux) > /dev/null || true
@@ -60,7 +59,7 @@ clean:
 	makeindex $(@:.pdf=.idx) > /dev/null 2> /dev/null || true
 	@grep -Eqc $(BIB_MISSING) $(@:.pdf=.log) && $(LATEX) $< > /dev/null ; true
 	@grep -Eqc $(REFERENCE_UNDEFINED) $(@:.pdf=.log) && $(LATEX) $< > /dev/null; true
-	-grep --color '\(Warning\|Overful\).*' $(@:.pdf=.log)
+	-grep --color '\(Warning\|Overful\).*' $(@:.pdf=.log) || true
 
 %.pdf: %.tmp.pdf
 	gs -sOutputFile=$@ $(GSFLAGS) $< < /dev/null > /dev/null
@@ -72,10 +71,10 @@ clean:
 
 # Helpers for generic targets
 
-$(FINALPDF): $(MASTER).pdf
-	gs -sOutputFile=$@ $(GSFLAGS) $< < /dev/null > /dev/null
+actes.tmp.tex: _master.tex
+	cp $< $@
 
-$(MASTER).pdf: _articles.tex $(SRC)
+actes.tmp.pdf: _articles.tex $(SRC)
 
 
 
@@ -101,7 +100,19 @@ Makefile.standalone-targets:
 			echo "$$i.ebook.tex: $$i.tmp.tex"; \
 			echo "	@sed 's/{sstic}/[ebook]{sstic}/' \$$< > \$$@"; \
 			echo; \
-			echo "$$i.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex) $$(echo $$i/img/*.png)"; \
+			echo -n "$$i.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
+			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
+			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
+			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
+			echo; \
+			echo; \
+			echo -n "actes.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
+			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
+			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
+			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
+			echo; \
 			echo; \
 			echo "$$i.pdf: $$i.tmp.pdf"; \
 			echo "	gs -sOutputFile=\$$@ $(GSFLAGS) $$< < /dev/null > /dev/null"; \

@@ -82,8 +82,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[table]{xcolor}
 \RequirePackage{graphicx}
-%\RequirePackage{pgfplots}
-%\pgfplotsset{compat=1.11}
+% TODO: This might have to go away for ebook?
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.11}
 \RequirePackage{tabularx}
 \RequirePackage{array}
 \RequirePackage{longtable}
