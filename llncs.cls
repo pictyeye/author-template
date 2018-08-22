@@ -1,30 +1,8 @@
 % LLNCS DOCUMENT CLASS -- version 2.14 (17-Aug-2004)
-% Springer Verlag LaTeX2e support for Lecture Notes in Computer Science
-%
-%%
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%%
-\NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{llncs}[2004/08/17 v2.14
-^^J LaTeX document class for Lecture Notes in Computer Science]
+% Stripped version
 
 % languages
 \let\switcht@@therlang\relax
-\def\ds@francais{\def\switcht@@therlang{\switcht@francais}}
 \def\ds@french{\def\switcht@@therlang{\switcht@francais}}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -136,7 +114,6 @@
  \def\tablename{Tableau}%
  \def\theoremname{Th\'eor\`eme}%
 }
-%
 
 % Ragged bottom for the actual page
 \def\thisbottomragged{\def\@textbottom{\vskip\z@ plus.0001fil
@@ -303,18 +280,6 @@
 \renewcommand\subparagraph[1]{\typeout{LLNCS warning: You should not use
                   \string\subparagraph\space with this class}\vskip0.5cm
 You should not use \verb|\subparagraph| with this class.\vskip0.5cm}
-
-\DeclareMathSymbol{\Gamma}{\mathalpha}{letters}{"00}
-\DeclareMathSymbol{\Delta}{\mathalpha}{letters}{"01}
-\DeclareMathSymbol{\Theta}{\mathalpha}{letters}{"02}
-\DeclareMathSymbol{\Lambda}{\mathalpha}{letters}{"03}
-\DeclareMathSymbol{\Xi}{\mathalpha}{letters}{"04}
-\DeclareMathSymbol{\Pi}{\mathalpha}{letters}{"05}
-\DeclareMathSymbol{\Sigma}{\mathalpha}{letters}{"06}
-\DeclareMathSymbol{\Upsilon}{\mathalpha}{letters}{"07}
-\DeclareMathSymbol{\Phi}{\mathalpha}{letters}{"08}
-\DeclareMathSymbol{\Psi}{\mathalpha}{letters}{"09}
-\DeclareMathSymbol{\Omega}{\mathalpha}{letters}{"0A}
 
 \let\footnotesize\small
 
@@ -592,7 +557,47 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
     \@starttoc{lot}%
     }
 
-\@cons\@openbib@code{\noexpand\small}
+\renewenvironment{thebibliography}[1]
+     {\section*{\refname}
+      \def\@biblabel##1{##1.}
+      \small
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
+      \sloppy\clubpenalty4000\widowpenalty4000%
+      \sfcode`\.=\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+\def\@lbibitem[#1]#2{\item[{[#1]}\hfill]\if@filesw
+     {\let\protect\noexpand\immediate
+     \write\@auxout{\string\bibcite{#2}{#1}}}\fi\ignorespaces}
+\newcount\@tempcntc
+\def\@citex[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \@tempcnta\z@\@tempcntb\m@ne\def\@citea{}\@cite{\@for\@citeb:=#2\do
+    {\@ifundefined
+       {b@\@citeb}{\@citeo\@tempcntb\m@ne\@citea\def\@citea{,}{\bfseries
+        ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+    {\setbox\z@\hbox{\global\@tempcntc0\csname b@\@citeb\endcsname\relax}%
+     \ifnum\@tempcntc=\z@ \@citeo\@tempcntb\m@ne
+       \@citea\def\@citea{,}\hbox{\csname b@\@citeb\endcsname}%
+     \else
+      \advance\@tempcntb\@ne
+      \ifnum\@tempcntb=\@tempcntc
+      \else\advance\@tempcntb\m@ne\@citeo
+      \@tempcnta\@tempcntc\@tempcntb\@tempcntc\fi\fi}}\@citeo}{#1}}
+\def\@citeo{\ifnum\@tempcnta>\@tempcntb\else
+               \@citea\def\@citea{,\,\hskip\z@skip}%
+               \ifnum\@tempcnta=\@tempcntb\the\@tempcnta\else
+               {\advance\@tempcnta\@ne\ifnum\@tempcnta=\@tempcntb \else
+                \def\@citea{--}\fi
+      \advance\@tempcnta\m@ne\the\@tempcnta\@citea\the\@tempcntb}\fi\fi}
 
 \def\idxquad{\hskip 10\p@}% space that divides entry from number
 
@@ -720,13 +725,10 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
 \def\inst#1{\unskip$^{#1}$}
 \def\fnmsep{\unskip$^,$}
 \def\email#1{{\tt#1}}
-\AtBeginDocument{\@ifundefined{url}{\def\url#1{#1}}{}%
-\@ifpackageloaded{babel}{%
+\AtBeginDocument{
 \@ifundefined{extrasenglish}{}{\addto\extrasenglish{\switcht@albion}}%
 \@ifundefined{extrasfrench}{}{\addto\extrasfrench{\switcht@francais}}%
-}{\switcht@@therlang}%
 }
-\def\homedir{\~{ }}
 
 \def\subtitle#1{\gdef\@subtitle{#1}}
 \clearheadinfo
@@ -921,6 +923,7 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
 \spn@wtheorem{question}{Question}{\itshape}{\rmfamily}
 \spn@wtheorem{solution}{Solution}{\itshape}{\rmfamily}
 \spn@wtheorem{remark}{Remark}{\itshape}{\rmfamily}
+\spn@wtheorem{theorem}{Theorem}{\itshape}{\rmfamily}
 
 \def\@takefromreset#1#2{%
     \def\@tempa{#1}%
