@@ -57,14 +57,15 @@ clean:
 	rm -f _articles.tex Makefile.standalone-targets
 
 
-%.pdf: %.tex
+%.pdf: %.tex sstic.cls llncs.cls
+	@rm -f $(@:.pdf=.aux) $(@:.pdf=.idx)
 	$(LATEX) $(LFLAGS) $<
-	bibtex $(<:.tex=.aux) || true
+	bibtex $(@:.pdf=.aux) || true
 	$(LATEX) $(LFLAGS) $<
 	makeindex $(@:.pdf=.idx) || true
-	@grep -Eqc $(BIB_MISSING) $(<:.tex=.log) && $(LATEX) $< > /dev/null ; true
-	@grep -Eqc $(REFERENCE_UNDEFINED) $(<:.tex=.log) && $(LATEX) $< > /dev/null; true
-	-grep --color '\(Warning\|Overful\).*' $(<:.tex=.log)
+	@grep -Eqc $(BIB_MISSING) $(@:.pdf=.log) && $(LATEX) $< > /dev/null ; true
+	@grep -Eqc $(REFERENCE_UNDEFINED) $(@:.pdf=.log) && $(LATEX) $< > /dev/null; true
+	-grep --color '\(Warning\|Overful\).*' $(@:.pdf=.log)
 
 %.pdf: %.tmp.pdf
 	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null

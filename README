@@ -4,6 +4,8 @@
 Utilisation
 ===========
 
+TODO: Rewrite this?
+
 Pour compiler les sources, c'est aussi simple que :
     $ make
 
@@ -27,6 +29,8 @@ entre eux.
 Publication
 ===========
 
+TODO: Rewrite this?
+
 Vous devez envoyer les *sources* à actes (AT) lists.sstic.org avant
 la date butoir.
 
@@ -36,6 +40,9 @@ plus importantes sont signalées en rouge par la commande make.
 
 Vous pouvez envoyer une archive complète (.tar.gz), ou un patch, ou
 un lien vers votre repository, etc.
+
+
+TODO: Keep this in the MonNom.tex file?
 
 Découpage en sections
 =====================
@@ -92,12 +99,13 @@ Quelques notes:
   contrainte.
 
   Votre article sera publié sur papier et sur notre site Web. Vous
-  pouvez donc fournir les images dans les deux "formats". Nommez
-  explicitement vos images avec le préfixe bw- (exemple: bw-archi.pdf)
+  pouvez donc fournir les images dans les deux « formats » si cela
+  vous semble nécessaire.
 
-  À défaut d'avoir une version papier, nous la convertirons à
-  l'aide la commande suivante:
-      $ convert archi.pdf -colorspace Gray bw-archi.pdf
+  TODO: Check this
+
+  Vous pouvez nommer explicitement vos images avec le préfixe
+  bw- (exemple: bw-archi.pdf) et utiliser la macro \ifssticbw
 
 Citations
 =========

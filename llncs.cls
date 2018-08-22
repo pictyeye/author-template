@@ -21,26 +21,9 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{llncs}[2004/08/17 v2.14
 ^^J LaTeX document class for Lecture Notes in Computer Science]
-% Options
-\let\if@envcntreset\iffalse
-\DeclareOption{envcountreset}{\let\if@envcntreset\iftrue}
-\DeclareOption{citeauthoryear}{\let\citeauthoryear=Y}
-\DeclareOption{oribibl}{\let\oribibl=Y}
-\let\if@custvec\iftrue
-\DeclareOption{orivec}{\let\if@custvec\iffalse}
-\let\if@envcntsame\iffalse
-\DeclareOption{envcountsame}{\let\if@envcntsame\iftrue}
-\let\if@envcntsect\iffalse
-\DeclareOption{envcountsect}{\let\if@envcntsect\iftrue}
-\let\if@runhead\iffalse
-\DeclareOption{runningheads}{\let\if@runhead\iftrue}
-
-\let\if@openbib\iffalse
-\DeclareOption{openbib}{\let\if@openbib\iftrue}
 
 % languages
 \let\switcht@@therlang\relax
-\def\ds@deutsch{\def\switcht@@therlang{\switcht@deutsch}}
 \def\ds@francais{\def\switcht@@therlang{\switcht@francais}}
 \def\ds@french{\def\switcht@@therlang{\switcht@francais}}
 
@@ -154,44 +137,6 @@
  \def\theoremname{Th\'eor\`eme}%
 }
 %
-% German section
-\def\switcht@deutsch{%\typeout{Man spricht deutsch.}%
- \def\abstractname{Zusammenfassung.}%
- \def\ackname{Danksagung.}%
- \def\andname{und}%
- \def\lastandname{ und}%
- \def\appendixname{Anhang}%
- \def\chaptername{Kapitel}%
- \def\claimname{Behauptung}%
- \def\conjecturename{Hypothese}%
- \def\contentsname{Inhaltsverzeichnis}%
- \def\corollaryname{Korollar}%
-%\def\definitionname{Definition}%
- \def\examplename{Beispiel}%
- \def\exercisename{\"Ubung}%
- \def\figurename{Abb.}%
- \def\keywordname{{\bf Schl\"usselw\"orter:}}
- \def\indexname{Index}
-%\def\lemmaname{Lemma}%
- \def\contriblistname{Mitarbeiter}
- \def\listfigurename{Abbildungsverzeichnis}%
- \def\listtablename{Tabellenverzeichnis}%
- \def\mailname{{\it Correspondence to\/}:}
- \def\noteaddname{Nachtrag}%
- \def\notename{Anmerkung}%
- \def\partname{Teil}%
-%\def\problemname{Problem}%
- \def\proofname{Beweis}%
- \def\propertyname{Eigenschaft}%
-%\def\propositionname{Proposition}%
- \def\questionname{Frage}%
- \def\remarkname{Anmerkung}%
- \def\seename{siehe}
- \def\solutionname{L\"osung}%
- \def\subclassname{{\it Subject Classifications\/}:}
- \def\tablename{Tabelle}%
-%\def\theoremname{Theorem}%
-}
 
 % Ragged bottom for the actual page
 \def\thisbottomragged{\def\@textbottom{\vskip\z@ plus.0001fil
@@ -372,13 +317,6 @@ You should not use \verb|\subparagraph| with this class.\vskip0.5cm}
 \DeclareMathSymbol{\Omega}{\mathalpha}{letters}{"0A}
 
 \let\footnotesize\small
-
-\if@custvec
-\def\vec#1{\mathchoice{\mbox{\boldmath$\displaystyle#1$}}
-{\mbox{\boldmath$\textstyle#1$}}
-{\mbox{\boldmath$\scriptstyle#1$}}
-{\mbox{\boldmath$\scriptscriptstyle#1$}}}
-\fi
 
 \def\squareforqed{\hbox{\rlap{$\sqcap$}$\sqcup$}}
 \def\qed{\ifmmode\squareforqed\else{\unskip\nobreak\hfil
@@ -654,95 +592,7 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
     \@starttoc{lot}%
     }
 
-\ifx\oribibl\undefined
-\ifx\citeauthoryear\undefined
-\renewenvironment{thebibliography}[1]
-     {\section*{\refname}
-      \def\@biblabel##1{##1.}
-      \small
-      \list{\@biblabel{\@arabic\c@enumiv}}%
-           {\settowidth\labelwidth{\@biblabel{#1}}%
-            \leftmargin\labelwidth
-            \advance\leftmargin\labelsep
-            \if@openbib
-              \advance\leftmargin\bibindent
-              \itemindent -\bibindent
-              \listparindent \itemindent
-              \parsep \z@
-            \fi
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-      \if@openbib
-        \renewcommand\newblock{\par}%
-      \else
-        \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
-      \fi
-      \sloppy\clubpenalty4000\widowpenalty4000%
-      \sfcode`\.=\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
-\def\@lbibitem[#1]#2{\item[{[#1]}\hfill]\if@filesw
-     {\let\protect\noexpand\immediate
-     \write\@auxout{\string\bibcite{#2}{#1}}}\fi\ignorespaces}
-\newcount\@tempcntc
-\def\@citex[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
-  \@tempcnta\z@\@tempcntb\m@ne\def\@citea{}\@cite{\@for\@citeb:=#2\do
-    {\@ifundefined
-       {b@\@citeb}{\@citeo\@tempcntb\m@ne\@citea\def\@citea{,}{\bfseries
-        ?}\@warning
-       {Citation `\@citeb' on page \thepage \space undefined}}%
-    {\setbox\z@\hbox{\global\@tempcntc0\csname b@\@citeb\endcsname\relax}%
-     \ifnum\@tempcntc=\z@ \@citeo\@tempcntb\m@ne
-       \@citea\def\@citea{,}\hbox{\csname b@\@citeb\endcsname}%
-     \else
-      \advance\@tempcntb\@ne
-      \ifnum\@tempcntb=\@tempcntc
-      \else\advance\@tempcntb\m@ne\@citeo
-      \@tempcnta\@tempcntc\@tempcntb\@tempcntc\fi\fi}}\@citeo}{#1}}
-\def\@citeo{\ifnum\@tempcnta>\@tempcntb\else
-               \@citea\def\@citea{,\,\hskip\z@skip}%
-               \ifnum\@tempcnta=\@tempcntb\the\@tempcnta\else
-               {\advance\@tempcnta\@ne\ifnum\@tempcnta=\@tempcntb \else
-                \def\@citea{--}\fi
-      \advance\@tempcnta\m@ne\the\@tempcnta\@citea\the\@tempcntb}\fi\fi}
-\else
-\renewenvironment{thebibliography}[1]
-     {\section*{\refname}
-      \small
-      \list{}%
-           {\settowidth\labelwidth{}%
-            \leftmargin\parindent
-            \itemindent=-\parindent
-            \labelsep=\z@
-            \if@openbib
-              \advance\leftmargin\bibindent
-              \itemindent -\bibindent
-              \listparindent \itemindent
-              \parsep \z@
-            \fi
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{}}%
-      \if@openbib
-        \renewcommand\newblock{\par}%
-      \else
-        \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
-      \fi
-      \sloppy\clubpenalty4000\widowpenalty4000%
-      \sfcode`\.=\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
-      \def\@cite#1{#1}%
-      \def\@lbibitem[#1]#2{\item[]\if@filesw
-        {\def\protect##1{\string ##1\space}\immediate
-      \write\@auxout{\string\bibcite{#2}{#1}}}\fi\ignorespaces}
-   \fi
-\else
 \@cons\@openbib@code{\noexpand\small}
-\fi
 
 \def\idxquad{\hskip 10\p@}% space that divides entry from number
 
@@ -873,9 +723,7 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
 \AtBeginDocument{\@ifundefined{url}{\def\url#1{#1}}{}%
 \@ifpackageloaded{babel}{%
 \@ifundefined{extrasenglish}{}{\addto\extrasenglish{\switcht@albion}}%
-\@ifundefined{extrasfrenchb}{}{\addto\extrasfrenchb{\switcht@francais}}%
 \@ifundefined{extrasfrench}{}{\addto\extrasfrench{\switcht@francais}}%
-\@ifundefined{extrasgerman}{}{\addto\extrasgerman{\switcht@deutsch}}%
 }{\switcht@@therlang}%
 }
 \def\homedir{\~{ }}
@@ -914,20 +762,6 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
     \advance\instindent by-\headlineindent
     \if!\the\toctitle!\addcontentsline{toc}{title}{\@title}\else
        \addcontentsline{toc}{title}{\the\toctitle}\fi
-    \if@runhead
-       \if!\the\titlerunning!\else
-         \edef\@title{\the\titlerunning}%
-       \fi
-       \global\setbox\titrun=\hbox{\small\rm\unboldmath\ignorespaces\@title}%
-       \ifdim\wd\titrun>\instindent
-          \typeout{Title too long for running head. Please supply}%
-          \typeout{a shorter form with \string\titlerunning\space prior to
-                   \string\maketitle}%
-          \global\setbox\titrun=\hbox{\small\rm
-          Title Suppressed Due to Excessive Length}%
-       \fi
-       \xdef\@title{\copy\titrun}%
-    \fi
 %
     \if!\the\tocauthor!\relax
       {\def\and{\noexpand\protect\noexpand\and}%
@@ -939,24 +773,6 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
     \fi
     \addtocontents{toc}{\noexpand\protect\noexpand\authcount{\the\c@auco}}%
     \addcontentsline{toc}{author}{\toc@uthor}%
-    \if@runhead
-       \if!\the\authorrunning!
-         \value{@inst}=\value{@auth}%
-         \setcounter{@auth}{1}%
-       \else
-         \edef\@author{\the\authorrunning}%
-       \fi
-       \global\setbox\authrun=\hbox{\small\unboldmath\@author\unskip}%
-       \ifdim\wd\authrun>\instindent
-          \typeout{Names of authors too long for running head. Please supply}%
-          \typeout{a shorter form with \string\authorrunning\space prior to
-                   \string\maketitle}%
-          \global\setbox\authrun=\hbox{\small\rm
-          Authors Suppressed Due to Excessive Length}%
-       \fi
-       \xdef\@author{\copy\authrun}%
-       \markboth{\@author}{\@title}%
-     \fi
   \endgroup
   \setcounter{footnote}{\fnnstart}%
   \clearheadinfo}
@@ -1086,36 +902,11 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
 \def\@Opargbegintheorem#1#2#3#4{#4\trivlist
       \item[\hskip\labelsep{#3#1}]{#3(#2)\@thmcounterend\ }}
 
-\if@envcntsect
-   \def\@thmcountersep{.}
-   \spnewtheorem{theorem}{Theorem}[section]{\bfseries}{\itshape}
-\else
-   \spnewtheorem{theorem}{Theorem}{\bfseries}{\itshape}
-   \if@envcntreset
-      \@addtoreset{theorem}{section}
-   \else
-      \@addtoreset{theorem}{chapter}
-   \fi
-\fi
-
 %definition of divers theorem environments
 \spnewtheorem*{claim}{Claim}{\itshape}{\rmfamily}
 \spnewtheorem*{proof}{Proof}{\itshape}{\rmfamily}
-\if@envcntsame % alle Umgebungen wie Theorem.
-   \def\spn@wtheorem#1#2#3#4{\@spothm{#1}[theorem]{#2}{#3}{#4}}
-\else % alle Umgebungen mit eigenem Zaehler
-   \if@envcntsect % mit section numeriert
-      \def\spn@wtheorem#1#2#3#4{\@spxnthm{#1}{#2}[section]{#3}{#4}}
-   \else % nicht mit section numeriert
-      \if@envcntreset
-         \def\spn@wtheorem#1#2#3#4{\@spynthm{#1}{#2}{#3}{#4}
-                                   \@addtoreset{#1}{section}}
-      \else
-         \def\spn@wtheorem#1#2#3#4{\@spynthm{#1}{#2}{#3}{#4}
-                                   \@addtoreset{#1}{chapter}}%
-      \fi
-   \fi
-\fi
+\def\spn@wtheorem#1#2#3#4{\@spynthm{#1}{#2}{#3}{#4}
+                          \@addtoreset{#1}{chapter}}%
 \spn@wtheorem{case}{Case}{\itshape}{\rmfamily}
 \spn@wtheorem{conjecture}{Conjecture}{\itshape}{\rmfamily}
 \spn@wtheorem{corollary}{Corollary}{\bfseries}{\itshape}
@@ -1183,8 +974,7 @@ to0pt{\kern0.55\wd0\vrule height0.45\ht0\hss}\box0}}}}
    \def\sectionmark##1{}%
    \def\subsectionmark##1{}}
 
-\if@runhead\ps@headings\else
-\ps@empty\fi
+\ps@empty
 
 \setlength\arraycolsep{1.4\p@}
 \setlength\tabcolsep{1.4\p@}

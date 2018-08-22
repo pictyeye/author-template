@@ -108,7 +108,11 @@ deserunt mollit anim id est laborum.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.4\textwidth]{MonNom/img/archi}
+  \ifssticbw
+    \includegraphics[width=0.4\textwidth]{MonNom/img/bw-archi}
+  \else
+    \includegraphics[width=0.4\textwidth]{MonNom/img/archi}
+  \fi
   \caption{Légende de l'image}
   \label{fig:monnom:archi}
 \end{figure}
