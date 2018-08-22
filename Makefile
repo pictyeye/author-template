@@ -4,6 +4,8 @@ SRC=$(MASTER).tex $(wildcard */*.tex)
 LATEX?=pdflatex
 LFLAGS?=-halt-on-error
 
+GSFLAGS=-sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6
+
 BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
 
@@ -46,38 +48,32 @@ export: Makefile.standalone-targets
 
 
 clean:
-	rm -f *.aux *.bbl *.blg *.dvi *.log *.ps *.lof *.toc *.glg *.gls
-	rm -f *.ilg *.nlo *.nav *.snm *.glo *.glsmake *.ist *.out *.vrb *.lot *.idx *.ind
-	rm -f $(MASTER).pdf $(FINALPDF)
-	rm -f $(MASTER)-ebook.4ct $(MASTER)-ebook.4tc $(MASTER)-ebook.css
-	rm -f $(MASTER)-ebook.idv $(MASTER)-ebook.lg $(MASTER)-ebook.tmp
-	rm -f $(MASTER)-ebook.xref $(MASTER)-ebook.html
-	rm -f $(FINALEPUB) $(FINALAZW3) $(FINALMOBI)
-	rm -f *.tmp.tex *.tmp.aux *.tmp.log *.tmp.pdf
-	rm -f _articles.tex Makefile.standalone-targets
+	rm -f *.aux *.bbl *.blg *.dvi *.log *.toc *.ilg *.out *.lot *.idx *.ind
+	rm -f *.tmp.tex *.tmp.pdf *.ebook.tex _articles.tex Makefile.standalone-targets
 
 
 %.pdf: %.tex sstic.cls llncs.cls
 	@rm -f $(@:.pdf=.aux) $(@:.pdf=.idx)
-	$(LATEX) $(LFLAGS) $<
-	bibtex $(@:.pdf=.aux) || true
-	$(LATEX) $(LFLAGS) $<
-	makeindex $(@:.pdf=.idx) || true
+	$(LATEX) $(LFLAGS) $< > /dev/null
+	bibtex $(@:.pdf=.aux) > /dev/null || true
+	$(LATEX) $(LFLAGS) $< > /dev/null
+	makeindex $(@:.pdf=.idx) > /dev/null 2> /dev/null || true
 	@grep -Eqc $(BIB_MISSING) $(@:.pdf=.log) && $(LATEX) $< > /dev/null ; true
 	@grep -Eqc $(REFERENCE_UNDEFINED) $(@:.pdf=.log) && $(LATEX) $< > /dev/null; true
 	-grep --color '\(Warning\|Overful\).*' $(@:.pdf=.log)
 
 %.pdf: %.tmp.pdf
-	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null
+	gs -sOutputFile=$@ $(GSFLAGS) $< < /dev/null > /dev/null
 
 %.tgz: %.pdf %
-	tar czf $@ $(@:.tgz=)/ $(@:.tgz=.pdf)
+	@tar czf $@ $(@:.tgz=)/ $(@:.tgz=.pdf)
+	@echo "Created $@." >&2; \
 
 
 # Helpers for generic targets
 
 $(FINALPDF): $(MASTER).pdf
-	gs -sOutputFile=$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $< < /dev/null
+	gs -sOutputFile=$@ $(GSFLAGS) $< < /dev/null > /dev/null
 
 $(MASTER).pdf: _articles.tex $(SRC)
 
@@ -87,23 +83,36 @@ $(MASTER).pdf: _articles.tex $(SRC)
 
 _articles.tex:
 	@for d in [^_]*/; do \
-		i=$$(basename $$d); \
-		echo "\inputarticle{$$i}"; \
+		i=$$(basename "$$d"); \
+		check_i=$$(echo "$$i" | tr -cd "a-zA-Z0-9_+-"); \
+		if [ "$$i" = "$$check_i" ]; then \
+			echo "\inputarticle{$$i}"; \
+		fi; \
 	done > $@
 
 Makefile.standalone-targets:
 	@for d in [^_]*/; do \
-		i=$$(basename $$d); \
-		echo "$$i.tmp.tex: _standalone.tex"; \
-		echo "	sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' _standalone.tex > \$$@"; \
-		echo; \
-		echo "$$i.tmp.pdf: $$i.tmp.tex $$(ls $$i/*.tex)"; \
-		echo; \
-		echo "$$i.pdf: $$i.tmp.pdf"; \
-		echo "	gs -sOutputFile=\$$@ -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6 $$< < /dev/null"; \
-		echo; \
-		echo "default_articles: $$i.pdf"; \
-		echo "export_articles: $$i.tgz"; \
+		i=$$(basename "$$d"); \
+		check_i=$$(echo "$$i" | tr -cd "a-zA-Z0-9_+-"); \
+		if [ "$$i" = "$$check_i" ]; then \
+			echo "$$i.tmp.tex: _standalone.tex"; \
+			echo "	@sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' _standalone.tex > \$$@"; \
+			echo; \
+			echo "$$i.ebook.tex: $$i.tmp.tex"; \
+			echo "	@sed 's/{sstic}/[ebook]{sstic}/' \$$< > \$$@"; \
+			echo; \
+			echo "$$i.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex) $$(echo $$i/img/*.png)"; \
+			echo; \
+			echo "$$i.pdf: $$i.tmp.pdf"; \
+			echo "	gs -sOutputFile=\$$@ $(GSFLAGS) $$< < /dev/null > /dev/null"; \
+			echo; \
+			echo "default_articles: $$i.pdf"; \
+			echo "export_articles: $$i.tgz"; \
+			echo "Created targets for $$i." >&2; \
+			echo; \
+		else \
+			echo "Ignoring invalid dir name ($$i)." >&2; \
+		fi \
 	done > Makefile.standalone-targets
 
 -include Makefile.standalone-targets
