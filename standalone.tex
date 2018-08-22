@@ -179,7 +179,19 @@
 \sloppy
 
 \begin{document}
-\selectlanguage{frenchb}
+\selectlanguage{french}
+
+\def\lastand{\ifnum\value{auco}=2\relax
+                \unskip{} \andname\
+             \else
+                \unskip \lastandname\
+             \fi}%
+\def\and{\stepcounter{@auth}\relax
+         \ifnum\value{@auth}=\value{auco}%
+            \lastand
+         \else
+            \unskip,
+         \fi}%
 
 \mainmatter
 \pagestyle{fancy}
