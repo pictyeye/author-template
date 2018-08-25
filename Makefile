@@ -2,7 +2,7 @@ SRC=actes.tmp.tex $(wildcard */*.tex)
 LATEX?=pdflatex
 LFLAGS?=-halt-on-error
 
-GSFLAGS=-sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.6
+GSFLAGS=-sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -dEmbedAllFonts=true -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -dSubsetFonts=true -dOptimize=true -dNOPLATFONTS -dDOPDFMARKS -dSAFER -dSTRICT -dConvertCMYKImagesToRGB=false -dProcessColorModel=/DeviceCMYK -dDetectDuplicateImages=true
 
 BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
@@ -111,9 +111,6 @@ Makefile.standalone-targets:
 			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
 			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
 			echo; \
-			echo; \
-			echo "$$i.pdf: $$i.tmp.pdf"; \
-			echo "	gs -sOutputFile=\$$@ $(GSFLAGS) $$< < /dev/null > /dev/null"; \
 			echo; \
 			echo "default: $$i.pdf"; \
 			echo "export: $$i.tgz"; \
