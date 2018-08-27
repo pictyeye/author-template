@@ -15,3 +15,10 @@ Makefile.standalone-targets
 *.ebook.css
 *.ebook.dvi
 *.ebook.html
+*.ebook.4ct
+*.ebook.4tc
+*.ebook.idv
+*.ebook.lg
+*.ebook.pdf
+*.ebook.tmp
+*.ebook.xref

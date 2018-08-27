@@ -8,22 +8,14 @@ BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
 
 
-# # ebook variables
+# ebook variables
 
-# FINALHTML=$(FINALPDF:pdf=html)
-# FINALEPUB=$(FINALHTML:html=epub)
-# FINALAZW3=$(FINALHTML:html=azw3)
-# FINALMOBI=$(FINALHTML:html=mobi)
-# SRCEBK=$(MASTER)-ebook.tex $(wildcard */*.tex)
-# HTLATEX=htlatex
-# HTFLAGS?="xhtml,charset=utf-8" " -cunihtf -utf8"
+HTLATEX=htlatex
+HTFLAGS?="xhtml,charset=utf-8" " -cunihtf -utf8"
 
-# # ebook metadata
-# CALFLAGS+=--book-producer STIC --publisher STIC
-# CALFLAGS+=--series SSTIC2019 --language fr
-# -include article/metadata.mk
-# AUTHORS?=SSTIC
-# CALFLAGS+=--authors $(AUTHORS)
+# ebook metadata
+CALFLAGS+=--book-producer STIC --publisher STIC
+CALFLAGS+=--series SSTIC2019 --language fr
 
 # IMGPDFS=$(wildcard */img/*.pdf */img/**/*.pdf)
 # IMGEPSS=$(foreach img, $(IMGPDFS), $(img:pdf=eps))
@@ -46,7 +38,8 @@ clean:
 	rm -f _master.pdf
 	rm -f _articles.tex Makefile.standalone-targets
 	rm -f *.tmp.tex *.tmp.pdf
-	rm -f *.ebook.tex *.ebook.css *.ebook.dvi *.ebook.html
+	rm -f *.ebook.tex *.ebook.css *.ebook.dvi *.ebook.html *.ebook.4ct *.ebook.4tc
+	rm -f *.ebook.idv *.ebook.lg *.ebook.pdf *.ebook.tmp *.ebook.xref
 
 
 %.tmp.pdf: %.tmp.tex sstic.cls llncs.cls
@@ -67,12 +60,49 @@ clean:
 	@echo "Created $@." >&2; \
 
 
-# Helpers for generic targets
-
 actes.tmp.tex: _master.tex
 	cp $< $@
 
 actes.tmp.pdf: _articles.tex $(SRC)
+
+
+
+# Ebook targets
+
+%.eps: %.pdf
+	pdftocairo -eps $< $@
+
+# TODO: Re-add stg to protect from GS attacks (restricted policy.xml)
+#%.png: %.jpg
+#	convert $< $@
+
+%.ebook.html: %.ebook.tex sstic.cls llncs.cls
+	@rm -f $(@:.html=.aux)
+	$(HTLATEX) $< $(HTFLAGS) > /dev/null
+	bibtex $(@:.html=) ||true
+	$(LATEX) $(LFLAGS) $(@:.html=.tex)
+	$(HTLATEX) $< $(HTFLAGS) > /dev/null
+	-grep --color '\(Warning\|Overful\).*' $(@:.html=.log)
+	@grep -Eqc $(BIB_MISSING) $(@:.html=.log) && $(HTLATEX) $< $(HTFLAGS) > /dev/null ; true
+	@grep -Eqc $(REFERENCE_UNDEFINED) $(@:.html=.log) && $(HTLATEX) $< $(HTFLAGS) > /dev/null; true
+
+
+# TODO: Re-add a way to include authors metadata properly, if needed
+# TODO: What about the title?
+# -include article/metadata.mk
+# AUTHORS?=SSTIC
+# CALFLAGS+=--authors $(AUTHORS)
+
+%.epub: %.ebook.html
+	ebook-convert $< $@ $(CALFLAGS)
+
+%.mobi: %.ebook.html
+	ebook-convert $< $@ $(CALFLAGS)
+
+%.azw3: %.epub
+# ebook-convert doesn't rasterize svgs for azw3, but Kindle svg parser seems
+# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
+	ebook-convert $< $@ $(CALFLAGS)
 
 
 
@@ -100,6 +130,15 @@ Makefile.standalone-targets:
 			echo; \
 			echo -n "$$i.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
 			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.jpg > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.jpg)"; \
+			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
+			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
+			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
+			echo; \
+			echo; \
+			echo -n "$$i.ebook.html: $$i.ebook.tex $$(echo $$i/*.tex)"; \
+			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.jpg > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.jpg)"; \
 			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
 			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
 			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
@@ -107,6 +146,7 @@ Makefile.standalone-targets:
 			echo; \
 			echo -n "actes.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
 			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.jpg > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.jpg)"; \
 			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
 			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
 			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
@@ -122,47 +162,3 @@ Makefile.standalone-targets:
 	done > Makefile.standalone-targets
 
 -include Makefile.standalone-targets
-
-
-
-
-# # ebook targets
-
-# $(FINALHTML): $(SRCEBK) $(IMGPNGS) $(IMGEPSS)
-# 	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
-# 	make LATEX=$(HTLATEX) LFLAGS="" $(MASTER)-ebook.bbl
-# 	make full-ebook
-# 	mv $(MASTER)-ebook.html $(FINALHTML)
-
-# full-ebook: $(MASTER)-ebook.ind
-# 	$(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS)
-# 	-grep --color '\(Warning\|Overful\).*' $(MASTER)-ebook.log
-# 	@grep -Eqc $(BIB_MISSING) $(MASTER)-ebook.log && $(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS) > /dev/null ; true
-# 	@grep -Eqc $(REFERENCE_UNDEFINED) $(MASTER)-ebook.log && $(HTLATEX) $(MASTER)-ebook.tex $(HTFLAGS) > /dev/null; true
-
-# %.bbl:
-# 	bibtex $(@:.bbl=) ||true
-# 	$(LATEX) $(LFLAGS) $(@:.bbl=.tex)
-
-# %.ind:
-# 	makeindex $(@:.ind=)
-
-# %.eps: %.pdf
-# 	pdftocairo -eps $< $@
-
-# %.png: %.jpg
-# 	convert $< $@
-
-# $(IMGPNGS): $(IMGJPGS)
-# $(IMGEPSS): $(IMGPDFS)
-
-# %.epub: %.html
-# 	ebook-convert $< $@ $(CALFLAGS)
-
-# %.mobi: %.html
-# 	ebook-convert $< $@ $(CALFLAGS)
-
-# %.azw3: %.epub
-# 	# ebook-convert doesn't rasterize svgs for azw3, but Kindle svg parser seems
-# 	# buggy, so instead of doing html -> azw3 we do html -> epub -> azw3.
-# 	ebook-convert $< $@ $(CALFLAGS)

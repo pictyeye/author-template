@@ -21,7 +21,7 @@
 \RequirePackage[utf8x]{inputenc}
 \ifssticebook
   \RequirePackage{textcomp}
-  \DeclareUnicodeCharacter{00A0}{~}
+%  \AtBeginDocument{\DeclareUnicodeCharacter{00A0}{~}}
 \fi
 \RequirePackage[fit]{truncate}
 \RequirePackage{xspace}
@@ -82,9 +82,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[table]{xcolor}
 \RequirePackage{graphicx}
-% TODO: This might have to go away for ebook?
-\RequirePackage{pgfplots}
-\pgfplotsset{compat=1.11}
+\ifssticebook
+\else
+  % There seems to be an incompatibility here...
+  \RequirePackage{pgfplots}
+  \pgfplotsset{compat=1.11}
+\fi
 \RequirePackage{tabularx}
 \RequirePackage{array}
 \RequirePackage{longtable}
@@ -103,21 +106,19 @@
 \ifssticebook
   % use dvips, ebook readers don't cope to well with svg
   \def\pgfsysdriver{pgfsys-dvips.def}
-\fi
-
-\RequirePackage{tikz}
-\RequirePackage{tikz-qtree}
-\usetikzlibrary{arrows,positioning}
-\usetikzlibrary{patterns}
-\usetikzlibrary{automata}
-\usetikzlibrary{calc}
-\RequirePackage[fancy]{tikz-inet}
-\usetikzlibrary{shapes,backgrounds}
-\usetikzlibrary{trees}
-
-\ifssticebook
   % htlatex uses latex in dvi mode so force the extension to something (either png or eps)
   \DeclareGraphicsExtensions{.eps, .png}
+\else
+  % tikz and pgf does not work with ebooks
+  \RequirePackage{tikz}
+  \RequirePackage{tikz-qtree}
+  \usetikzlibrary{arrows,positioning}
+  \usetikzlibrary{patterns}
+  \usetikzlibrary{automata}
+  \usetikzlibrary{calc}
+  \RequirePackage[fancy]{tikz-inet}
+  \usetikzlibrary{shapes,backgrounds}
+  \usetikzlibrary{trees}
 \fi
 
 
