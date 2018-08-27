@@ -8,7 +8,11 @@
 % Class Option Handling %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \let\ifssticbw\iffalse
-\DeclareOption{bw}{\let\ifssticbw\iftrue}
+\let\ifssticpaper\iffalse
+\DeclareOption{paper}{%
+  \let\ifssticbw\iftrue%
+  \let\ifssticpaper\iftrue%
+}
 \let\ifssticebook\iffalse
 \DeclareOption{ebook}{\let\ifssticebook\iftrue}
 

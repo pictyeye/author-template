@@ -60,8 +60,11 @@ clean:
 	@echo "Created $@." >&2; \
 
 
-actes.tmp.tex: _master.tex
+actes-online.tmp.tex: _master.tex
 	cp $< $@
+
+actes.tmp.tex: _master.tex
+	@sed 's/{sstic}/[paper]{sstic}/' $< > $@
 
 actes.tmp.pdf: _articles.tex $(SRC)
 
