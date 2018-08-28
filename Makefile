@@ -46,8 +46,8 @@ clean:
 	@rm -f $(@:.pdf=.aux) $(@:.pdf=.idx)
 	$(LATEX) $(LFLAGS) $< > /dev/null
 	bibtex $(@:.pdf=.aux) > /dev/null || true
-	$(LATEX) $(LFLAGS) $< > /dev/null
 	makeindex $(@:.pdf=.idx) > /dev/null 2> /dev/null || true
+	$(LATEX) $(LFLAGS) $< > /dev/null
 	@grep -Eqc $(BIB_MISSING) $(@:.pdf=.log) && $(LATEX) $< > /dev/null ; true
 	@grep -Eqc $(REFERENCE_UNDEFINED) $(@:.pdf=.log) && $(LATEX) $< > /dev/null; true
 	-grep --color '\(Warning\|Overful\).*' $(@:.pdf=.log) || true
