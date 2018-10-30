@@ -32,6 +32,7 @@ d'ajouter un nouveau package, veuillez contacter l'équipe (actes (AT)
 lists.sstic.org) car nous devons vérifier la compatibilité des modules
 entre eux.
 
+
 Publication
 ===========
 
@@ -61,9 +62,10 @@ Merci de *ne pas* redéfinir la profondeur des sections, en particulier
 le compteur secnumdepth.
 
 
-Si vous souhaitez mettre des annexes (en utilisant \appendix), il faut
-penser à mettre l'ensemble des annexes (depuis \appendix jusqu'à la
-fin de la dernière annexe) entre accolades.
+Si vous souhaitez mettre des annexes, vous pouvez utiliser \appendix :
+toutes les sections qui suivront cette commande seront identifiées par
+des lettres.
+
 
 Images, figures
 ===============
