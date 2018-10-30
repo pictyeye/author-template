@@ -1,3 +1,7 @@
+#####################
+# General Variables #
+#####################
+
 SRC=actes.tmp.tex $(wildcard */*.tex)
 LATEX?=pdflatex
 LFLAGS?=-halt-on-error
@@ -8,7 +12,10 @@ BIB_MISSING = 'No file.*\.bbl|Citation.*undefined'
 REFERENCE_UNDEFINED='(There were undefined references|Rerun to get (cross-references|the bars) right)'
 
 
-# ebook variables
+
+###################
+# Ebook Variables #
+###################
 
 HTLATEX=htlatex
 HTFLAGS?="xhtml,charset=utf-8" " -cunihtf -utf8"
@@ -24,10 +31,13 @@ CALFLAGS+=--series SSTIC2019 --language fr
 
 
 
+###################
+# Generic targets #
+###################
+
 .PHONY: default export clean
 
 
-# Generic targets
 default: Makefile.standalone-targets
 
 export: Makefile.standalone-targets
@@ -41,6 +51,11 @@ clean:
 	rm -f *.ebook.tex *.ebook.css *.ebook.dvi *.ebook.html *.ebook.4ct *.ebook.4tc
 	rm -f *.ebook.idv *.ebook.lg *.ebook.pdf *.ebook.tmp *.ebook.xref
 
+
+
+#######################
+# Compilation helpers #
+#######################
 
 %.tmp.pdf: %.tmp.tex sstic.cls llncs.cls
 	@rm -f $(@:.pdf=.aux) $(@:.pdf=.idx)
@@ -60,19 +75,27 @@ clean:
 	@echo "Created $@." >&2; \
 
 
+
+#######################
+# Proceedings targets #
+#######################
+
 actes-online.tmp.tex: _master.tex
 	cp $< $@
+
+actes-online.tmp.pdf: _articles.tex $(SRC)
+
+
+actes.tmp.pdf: _articles.tex $(SRC)
 
 actes.tmp.tex: _master.tex
 	@sed 's/{sstic}/[paper]{sstic}/' $< > $@
 
-actes-online.tmp.pdf: _articles.tex $(SRC)
-
-actes.tmp.pdf: _articles.tex $(SRC)
 
 
-
-# Ebook targets
+#################
+# Ebook helpers #
+#################
 
 %.eps: %.pdf
 	pdftocairo -eps $< $@
@@ -111,7 +134,9 @@ actes.tmp.pdf: _articles.tex $(SRC)
 
 
 
-# Specific standalone targets
+###############################
+# Specific standalone targets #
+###############################
 
 _articles.tex:
 	@for d in [^_]*/; do \
