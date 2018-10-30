@@ -66,6 +66,8 @@ actes-online.tmp.tex: _master.tex
 actes.tmp.tex: _master.tex
 	@sed 's/{sstic}/[paper]{sstic}/' $< > $@
 
+actes-online.tmp.pdf: _articles.tex $(SRC)
+
 actes.tmp.pdf: _articles.tex $(SRC)
 
 
