@@ -2,22 +2,21 @@
 % Merci de ne conserver cette ligne pour éviter que le paramètre ne soit écrasé par un article précédent dans les actes
 \selectlanguage{french} % valeurs possibles : french, english
 
-\settitle[Sécurité des trotinettes]{Sécurité des trotinettes : prise de contrôle des roues à distance}
-
+\settitle[Sécurité des trotinettes]{Sécurité des trotinettes: prise de contrôle des roues à distance}
 
 \setauthor[M.~MonNom, A.~MonAutreNom]{MonPrenom MonNom \and AutrePrenom AutreNom\\
   \email{monprenom.monnom@mycorp.com\\autreprenom.autrenom@mycorp.com}}
 
 \institute{MyCorp}
 
-% Pour gérer des organismes d'appartenance multiples, voici le modèle
+% Pour gérer des organismes d'appartenance multiples, voici le modèle:
 %
 %   \setauthor[M.~MonNom, A.~MonAutreNom]{MonPrenom MonNom\inst{1} \and AutrePrenom AutreNom\inst{2}\\
 %     \email{monprenom.monnom@mycorp.com\\autreprenom.autrenom@mycorp.com}}
 %
 %   \institute{OrganismePourMonNom \and OrganismePourAutreNom}
 %
-% Dans \institute, la numérotation se fera automatiquement
+% Dans \institute, la numérotation se fera automatiquement et commence à 1
 
 
 \maketitle
@@ -94,8 +93,10 @@ moche, l'image~\ref{fig:monnom:archi} en étant la preuve !
 Si une citation est manquante (comme \cite{monnom:referencefoireuse}),
 un warning en rouge s'affichera lors de la compilation.
 
-Avec des listes partout :
 
+% Exemples de listes  à points
+
+Avec des listes partout :
 \begin{itemize}
 \item Lorem ipsum dolor sit amet
   \begin{itemize}
@@ -146,3 +147,15 @@ if __name__ == '__main__':
 \end{lstlisting}
 
 \bibliography{MonNom/biblio}
+
+% Quelques éléments complémentaires de typo
+%
+% En français, il faut un espace insécable avant les signes doubles
+% (:;?!) que vous pouvez insérer avec ~ mais il est plus simple de
+% laisser LaTeX faire en ne collant le signe double (
+%
+% Pensez à coller vos \footnote au texte qui appelle la note de bas de
+% page.
+%
+% Il faut mettre un espace insécable ~ avant les références~\ref{...} ou
+% les citations~\cite{...}.
