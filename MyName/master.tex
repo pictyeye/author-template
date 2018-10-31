@@ -1,0 +1,158 @@
+% You must put english here to handle hyphenation correctly
+% Please keep this line to avoid using the parameter from the previous article in the proceedings
+\selectlanguage{english} % possible values : french, english
+
+\settitle[Security of trotinettes]{Security of \emph{trotinettes}: remote control access}
+
+
+\setauthor[M.~MyName, A.~MyOtherName]{MyFirstName MyName \and AnotherFirstName MyOtherName\\
+  \email{myfirstname.myname@mycorp.com\\a.myothername@mycorp.com}}
+
+\institute{MyCorp}
+
+% To handle authors with multiple institutions, you can use the following code:
+%
+%   \setauthor[M.~MonNom, A.~MonAutreNom]{MonPrenom MonNom\inst{1} \and AutrePrenom AutreNom\inst{2}\\
+%     \email{monprenom.monnom@mycorp.com\\autreprenom.autrenom@mycorp.com}}
+%
+%   \institute{OrganismePourMonNom \and OrganismePourAutreNom}
+%
+% For \institute, the numbering is automatic (and starts at 1)
+
+
+\maketitle
+\index{MyName, M.}
+\index{MyOtherName, A.}
+
+\begin{abstract}
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+  minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in
+  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+  culpa qui officia deserunt mollit anim id est laborum.
+\end{abstract}
+
+
+\section{Introduction}
+
+\subsection{State of the art}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et \emph{dolore} magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+ea commodo consequat. Duis aute irure dolor in reprehenderit in
+voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+sint occaecat cupidatat non proident, sunt in culpa qui officia
+deserunt mollit anim id est laborum.
+
+% Figure sample
+% (with both a B&W and a color version)
+
+\begin{figure}[ht]
+  \centering
+  \ifssticbw
+    \includegraphics[width=0.4\textwidth]{MonNom/img/bw-archi}
+  \else
+    \includegraphics[width=0.4\textwidth]{MonNom/img/archi}
+  \fi
+  \caption{Figure caption}
+  \label{fig:myname:archi}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+
+
+% Quoting examples
+
+I can also quote external references, e.g.~ with Charlie Lembrouille's
+famous article~\cite{myname:charlielembrouille}, he proved that "we
+cannot rely on our \emph{trotinettes} since they are vulnerable to XSS
+attacks". It's sad, and figure~\ref{fig:myname:archi} illustrates the
+situation!
+
+If a reference is missing (like~\cite{myname:referencefoireuse}), a
+red warning will be displayed during the compilation.
+
+
+% Itemize samples
+
+You can also use lists:
+\begin{itemize}
+\item Lorem ipsum dolor sit amet
+  \begin{itemize}
+  \item Because I can
+  \item One more time
+  \end{itemize}
+\item Consectetur adipisicing elit
+\item Sed do eiusmod tempor
+\end{itemize}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+
+\section{Use the source, Luke}
+
+% Raw test inclusion
+
+Sometimes you might want to include raw text, like the standard output
+from listing~\ref{lst:myname:outhello}, which was produced by the
+program given in listing~\ref{lst:myname:helloword}.
+
+\begin{lstlisting}[language={},caption={Standard output},label={lst:myname:outhello}]
+Hello world everybody
+\end{lstlisting}
+
+\begin{lstlisting}[language={Python},caption={My first program},label={lst:myname:helloword}]
+#! /usr/bin/env python
+
+import sys
+
+def hello(name):
+    print 'Hello world %s' % (name)
+
+if __name__ == '__main__':
+    hello(sys.argv[1] if len(sys.argv) > 1 else 'everybody')
+\end{lstlisting}
+
+\bibliography{MyName/biblio}
+
+% Some typography nits
+%
+% You must not have any space between your text and the \footnote command.
+%
+% You must add an "espace insécable" ~ before references~\ref{...} and
+% citation~\cite{...} commands.
