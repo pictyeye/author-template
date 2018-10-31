@@ -50,6 +50,7 @@ clean:
 	rm -f *.tmp.tex *.tmp.pdf
 	rm -f *.ebook.tex *.ebook.css *.ebook.dvi *.ebook.html *.ebook.4ct *.ebook.4tc
 	rm -f *.ebook.idv *.ebook.lg *.ebook.pdf *.ebook.tmp *.ebook.xref
+	rm -f actes.pdf actes-online.pdf
 
 
 
@@ -138,7 +139,7 @@ actes.tmp.tex: _master.tex
 # Specific standalone targets #
 ###############################
 
-_articles.tex:
+_articles.tex: $(SRC) Makefile
 	@for d in [^_]*/; do \
 		i=$$(basename "$$d"); \
 		check_i=$$(echo "$$i" | tr -cd "a-zA-Z0-9_+-"); \
@@ -147,11 +148,13 @@ _articles.tex:
 		fi; \
 	done > $@
 
-Makefile.standalone-targets:
+Makefile.standalone-targets: $(SRC) Makefile
 	@for d in [^_]*/; do \
 		i=$$(basename "$$d"); \
 		check_i=$$(echo "$$i" | tr -cd "a-zA-Z0-9_+-"); \
 		if [ "$$i" = "$$check_i" ]; then \
+			echo "# Targets for $$i"; \
+			echo; \
 			echo "$$i.tmp.tex: _standalone.tex"; \
 			echo "	@sed 's/@@DIRECTORY@@/\$$(@:.tmp.tex=)/' _standalone.tex > \$$@"; \
 			echo; \
@@ -182,11 +185,17 @@ Makefile.standalone-targets:
 			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
 			echo; \
 			echo; \
+			echo "$$i-clean:"; \
+			echo "	rm -f $$i.pdf $$i.azw3 $$i.epub $$i.mobi"; \
+			echo; \
 			echo "default: $$i.pdf"; \
+			echo "clean: $$i-clean"; \
 			echo "export: $$i.tgz"; \
 			echo "Created targets for $$i." >&2; \
 			echo; \
-		else \
+			echo; \
+			echo; \
+else \
 			echo "Ignoring invalid dir name ($$i)." >&2; \
 		fi \
 	done > Makefile.standalone-targets
