@@ -1,6 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}%[1995/12/01] TODO: Add a date?
 \ProvidesClass{sstic}[2018/08/21 SSTIC Proceedings style]
 
+%%%%%%%%%
+% Babel %
+%%%%%%%%%
+\RequirePackage[english,french,main=french]{babel}
+
+
 \LoadClass[b5paper,11pt]{llncs}
 
 
@@ -36,16 +42,6 @@
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{pifont}
-
-
-%%%%%%%%%
-% Babel %
-%%%%%%%%%
-\RequirePackage[english,french,main=french]{babel}
-% Bug:
-% babel wrongly warns about Figure/Table captions being possibly wrong in French
-% Since the warning does not apply here (false positive), we can remove it.
-\frenchbsetup{SuppressWarning=true} % TODO: Remove this!
 
 
 %%%%%%%%%%%
