@@ -60,7 +60,7 @@ clean:
 
 %.tmp.pdf: %.tmp.tex sstic.cls llncs.cls
 	@rm -f $(@:.pdf=.aux) $(@:.pdf=.idx)
-	$(LATEX) $(LFLAGS) $< > /dev/null
+	$(LATEX) $(LFLAGS) $<
 	bibtex $(@:.pdf=.aux) > /dev/null || true
 	makeindex $(@:.pdf=.idx) > /dev/null 2> /dev/null || true
 	$(LATEX) $(LFLAGS) $< > /dev/null
