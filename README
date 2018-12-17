@@ -12,7 +12,13 @@ répertoire (un article est un répertoire dont le nom est composé de
 caractères alphanumériques et qui contient un fichier master.tex).
 
 Avec le modèle fraichement téléchargé, cela produira l'article
-MonNom.pdf.
+MonNom.pdf et l'article MyName.pdf.
+
+Pour que la compilation fonctionne, il faut installer un certain
+nombre de packages LaTeX. Sous Debian, les packages nécessaires sont
+texlive, texlive-latex-extra, texlive-sciences, texlive-lang-french,
+cm-super et gs.
+
 
 Ce modèle doit être la base commune à tous les articles LaTeX pour
 SSTIC.
@@ -214,6 +220,13 @@ Q) LaTeX m'insulte avec le message sordide suivant :
 
 R) Afin de fonctionner les packages séléctionnés nécessitent
 l'installation du paquetage Debian cm-super.
+
+
+Q) LaTeX m'insulte au sujet d'utf8x.def / algorithm.sty / du support
+du français. Que faire ?
+
+R) Il faut respectivement installer texlive-latex-extra,
+texlive-sciences et texlive-lang-french.
 
 
 Q) Autre message sordide de LaTeX:
