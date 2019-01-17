@@ -16,7 +16,7 @@ MonNom.pdf et l'article MyName.pdf.
 
 Pour que la compilation fonctionne, il faut installer un certain
 nombre de packages LaTeX. Sous Debian, les packages nécessaires sont
-texlive, texlive-latex-extra, texlive-sciences, texlive-lang-french,
+texlive, texlive-latex-extra, texlive-science, texlive-lang-french,
 cm-super et gs.
 
 
