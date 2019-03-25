@@ -174,6 +174,51 @@
    classoffset=0,
 }[keywords,comments,strings]
 
+\lstdefinelanguage{PowerShell}{
+	morekeywords={Add-Content,Add-PSSnapin,Clear-Content,%
+                Clear-History,Clear-Host,Clear-Item,%
+                Clear-ItemProperty,Clear-Variable,%
+                Compare-Object,Connect-PSSession,ConvertFrom-String,%
+                Convert-Path,Copy-Item,Copy-ItemProperty,%
+                Disable-PSBreakpoint,Disconnect-PSSession,%
+                Enable-PSBreakpoint,Enter-PSSession,Exit-PSSession,%
+                Export-Alias,Export-Csv,Export-PSSession,ForEach-Object,%
+                Format-Custom,Format-Hex,Format-List,Format-Table,%
+                Format-Wide,Get-Alias,Get-ChildItem,Get-Clipboard,%
+                Get-Command,Get-ComputerInfo,Get-Content,Get-History,%
+                Get-Item,Get-ItemProperty,Get-ItemPropertyValue,Get-Job,%
+                Get-Location,Get-Member,Get-Module,Get-Process,%
+                Get-PSBreakpoint,Get-PSCallStack,Get-PSDrive,Get-PSSession,%
+                Get-PSSnapin,Get-Service,Get-TimeZone,Get-Unique,Get-Variable,%
+                Get-WmiObject,Group-Object,help,Import-Alias,Import-Csv,%
+                Import-Module,Import-PSSession,Invoke-Command,Invoke-Expression,%
+                Invoke-History,Invoke-Item,Invoke-RestMethod,Invoke-WebRequest,%
+                Invoke-WmiMethod,Measure-Object,mkdir,Move-Item,Move-ItemProperty,%
+                New-Alias,New-Item,New-Module,New-PSDrive,New-PSSession,%
+                New-PSSessionConfigurationFile,New-Variable,Out-GridView,%
+                Out-Host,Out-Printer,Pop-Location,powershell_ise.exe,%
+                Push-Location,Receive-Job,Receive-PSSession,Remove-Item,%
+                Remove-ItemProperty,Remove-Job,Remove-Module,Remove-PSBreakpoint,%
+                Remove-PSDrive,Remove-PSSession,Remove-PSSnapin,Remove-Variable,%
+                Remove-WmiObject,Rename-Item,Rename-ItemProperty,Resolve-Path,%
+                Resume-Job,Select-Object,Select-String,Set-Alias,Set-Clipboard,%
+                Set-Content,Set-Item,Set-ItemProperty,Set-Location,%
+                Set-PSBreakpoint,Set-TimeZone,Set-Variable,Set-WmiInstance,%
+                Show-Command,Sort-Object,Start-Job,Start-Process,Start-Service,%
+                Start-Sleep,Stop-Job,Stop-Process,Stop-Service,Suspend-Job,%
+                Tee-Object,Trace-Command,Wait-Job,Where-Object,Write-Output
+	},
+	morekeywords={Do,Else,For,ForEach,Function,If,In,Until,While},
+	alsodigit={-},
+	sensitive=false,
+	morecomment=[l]{\#},
+	morecomment=[n]{<\#}{\#>},
+	morestring=[b]{"},
+	morestring=[b]{'},
+	morestring=[s]{@'}{'@},
+	morestring=[s]{@"}{"@}
+}
+
 \lstloadlanguages{[Sharp]C,[x86masm]Assembler,java,PHP,C,Python}
 
 % Change the style of listing numerotation
