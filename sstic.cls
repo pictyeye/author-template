@@ -102,6 +102,7 @@
 \RequirePackage{tcolorbox}
 \RequirePackage{booktabs}
 \RequirePackage{rotating}
+\RequirePackage{bytefield}
 
 \ifssticebook
   % use dvips, ebook readers don't cope to well with svg
