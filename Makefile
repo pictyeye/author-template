@@ -161,28 +161,28 @@ Makefile.standalone-targets: $(SRC) Makefile
 			echo "$$i.ebook.tex: $$i.tmp.tex"; \
 			echo "	@sed 's/{sstic}/[ebook]{sstic}/' \$$< > \$$@"; \
 			echo; \
-			echo -n "$$i.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
-			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
-			ls $$i/img/*.jpg > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.jpg)"; \
-			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
-			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
-			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
+			printf "%s" "$$i.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
+			ls $$i/*.bib > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.jpg > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.jpg)"; \
+			ls $$i/img/*.png > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.png)"; \
+			ls $$i/img/*.eps > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.eps)"; \
+			ls $$i/img/*.pdf > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.pdf)"; \
 			echo; \
 			echo; \
-			echo -n "$$i.ebook.html: $$i.ebook.tex $$(echo $$i/*.tex)"; \
-			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
-			ls $$i/img/*.jpg > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.jpg)"; \
-			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
-			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
-			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
+			printf "%s" "$$i.ebook.html: $$i.ebook.tex $$(echo $$i/*.tex)"; \
+			ls $$i/*.bib > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.jpg > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.jpg)"; \
+			ls $$i/img/*.png > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.png)"; \
+			ls $$i/img/*.eps > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.eps)"; \
+			ls $$i/img/*.pdf > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.pdf)"; \
 			echo; \
 			echo; \
-			echo -n "actes.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
-			ls $$i/*.bib > /dev/null 2> /dev/null && echo -n " $$(echo $$i/*.bib)"; \
-			ls $$i/img/*.jpg > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.jpg)"; \
-			ls $$i/img/*.png > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.png)"; \
-			ls $$i/img/*.eps > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.eps)"; \
-			ls $$i/img/*.pdf > /dev/null 2> /dev/null && echo -n " $$(echo $$i/img/*.pdf)"; \
+			printf "%s" "actes.tmp.pdf: $$i.tmp.tex $$(echo $$i/*.tex)"; \
+			ls $$i/*.bib > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/*.bib)"; \
+			ls $$i/img/*.jpg > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.jpg)"; \
+			ls $$i/img/*.png > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.png)"; \
+			ls $$i/img/*.eps > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.eps)"; \
+			ls $$i/img/*.pdf > /dev/null 2> /dev/null && printf "%s" " $$(echo $$i/img/*.pdf)"; \
 			echo; \
 			echo; \
 			echo "$$i-clean:"; \
